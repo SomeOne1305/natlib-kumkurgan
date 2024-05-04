@@ -38,7 +38,7 @@ const Header = () => {
 						</span>
 					</div>
 					<div
-						className='p-1 border rounded-md dark:border-gray-600 border-gray-300 cursor-pointer'
+						className='p-1 border rounded-md dark:border-gray-600 border-gray-300 cursor-pointer md:hidden'
 						onClick={() => setOpen(true)}
 					>
 						<IoMenu className='text-4xl dark:text-slate-200' />
