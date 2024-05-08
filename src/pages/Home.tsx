@@ -1,7 +1,5 @@
 import Banner from '../components/Banner/Banner'
 import BooksSection from '../components/Books/BooksSection'
-import DocsInfo from '../components/Info/DocsInfo'
-import StuffInfo from '../components/Info/StuffInfo'
 import TopNews from '../components/News/TopNews'
 
 const Home = () => {
@@ -10,8 +8,6 @@ const Home = () => {
 			<div className='container'>
 				<TopNews />
 				<BooksSection />
-				<StuffInfo />
-				<DocsInfo />
 			</div>
 			<Banner />
 		</>
