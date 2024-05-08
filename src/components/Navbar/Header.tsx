@@ -14,7 +14,7 @@ const Header = () => {
 		<div className='w-full'>
 			<div className='container'>
 				<div className='w-full flex items-center justify-between py-3 my-3'>
-					<a href='#' className='inline-flex items-center'>
+					<Link to='/' className='inline-flex items-center'>
 						<IoIosBook className='dark:text-slate-200 text-8xl' />
 						<div className='border-l-2 border-black dark:border-slate-300 pl-1'>
 							<span className='text-base dark:text-slate-200'>
@@ -27,7 +27,7 @@ const Header = () => {
 							<br />
 							<span className='text-base dark:text-slate-200'>markazi</span>
 						</div>
-					</a>
+					</Link>
 
 					<div className='px-1 max-lg:hidden'>
 						<span className='text-sm dark:text-slate-200'>
