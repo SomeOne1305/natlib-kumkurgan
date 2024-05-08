@@ -1,16 +1,17 @@
 import { FaEye, FaRegCalendarAlt, FaRegClock } from 'react-icons/fa'
+import { Link } from 'react-router-dom'
 
 const EventCard = () => {
 	return (
 		<div className='flex items-center'>
 			<div className='w-1/2 h-full'>
-				<a href={'#'}>
+				<Link to={'some-route-there'}>
 					<img
 						src='https://media.istockphoto.com/id/499517325/photo/a-man-speaking-at-a-business-conference.jpg?s=612x612&w=0&k=20&c=gWTTDs_Hl6AEGOunoQ2LsjrcTJkknf9G8BGqsywyEtE='
 						className='w-full object-cover rounded-lg'
 						alt=''
 					/>
-				</a>
+				</Link>
 			</div>
 			<div className='w-1/2 h-full flex flex-col items-start justify-center p-1.5'>
 				<div className='pb-1'>

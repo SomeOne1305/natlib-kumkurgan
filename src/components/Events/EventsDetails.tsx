@@ -8,25 +8,27 @@ import {
 } from 'react-icons/fa'
 import { IoArrowBack } from 'react-icons/io5'
 import { MdOutlineLocationOn } from 'react-icons/md'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 const EventsDetails = () => {
 	// const { slug } = useParams<{ slug: string }>()
-	// const navigate = useNavigate()
-	// const location = useLocation()
-	const shareLink = window.location.origin // location.pathname
+	const navigate = useNavigate()
+	const location = useLocation()
+	const shareLink = window.location.origin + location.pathname
 	console.log(shareLink)
 
 	return (
 		<div className='w-full p-4'>
 			<div
 				className='inline-block p-1.5 rounded-full hover:bg-blue-100 transition-colors duration-150 mb-4 cursor-pointer dark:hover:bg-[#1e283f]'
-				onClick={() => console.log(-1)}
+				onClick={() => navigate(-1)}
 			>
 				<IoArrowBack className='text-2xl sm:text-3xl text-blue-950 dark:text-white' />
 			</div>
 			<img
 				src='https://bbcnews.bbcstudios.com/media/6183/sustainability-in-business-thumbnail-1.jpg'
 				className='w-full object-cover rounded-lg mb-3'
+				loading='lazy'
 				alt=''
 			/>
 			<div className='flex items-center justify-between gap-4 mt-8 mb-2 flex-wrap'>

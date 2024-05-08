@@ -1,23 +1,13 @@
-import BooksSection from './components/Books/BooksSection'
-import Content from './components/Breadcrumbs/Content'
-import EventsSection from './components/Events/EventsSection'
-import MediaSection from './components/Media/MediaSection'
-import Navbar from './components/Navbar/Navbar'
-import NewsSection from './components/News/NewsSection'
-import TopNews from './components/News/TopNews'
+import { Outlet } from 'react-router-dom'
+import { useLangStore } from './store'
 
 const App = () => {
+	const { lang } = useLangStore()
+	console.log(lang)
+
 	return (
 		<div className='dark:bg-[#0F172A] transition-colors duration-150 min-h-screen'>
-			<Navbar />
-			<div className='container'>
-				<TopNews />
-				<BooksSection />
-				<NewsSection />
-				<EventsSection />
-				<MediaSection />
-			</div>
-			<Content />
+			<Outlet />
 		</div>
 	)
 }

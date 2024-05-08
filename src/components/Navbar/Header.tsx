@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { IoIosBook, IoMdClose } from 'react-icons/io'
 import { IoMenu } from 'react-icons/io5'
 import { PiCaretDown } from 'react-icons/pi'
+import { Link } from 'react-router-dom'
 import { navbar } from '../../constants/navbar'
 import MobileBar from './MobileBar'
 
@@ -90,9 +91,12 @@ const Header = () => {
 														: ''
 												} hover:bg-gray-100 dark:hover:bg-[#252836] hover:text-blue-800 dark:hover:text-blue-700 dark:text-slate-300 list-none`}
 											>
-												<a href='#' className='flex relative'>
+												<Link
+													to={i.link ? i.link : '/'}
+													className='flex relative'
+												>
 													{i.title}
-												</a>
+												</Link>
 											</li>
 										))}
 									</motion.ul>

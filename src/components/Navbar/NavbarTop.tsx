@@ -6,6 +6,8 @@ import {
 	FaYoutube,
 } from 'react-icons/fa'
 import { IoLogInOutline } from 'react-icons/io5'
+import { FormattedMessage } from 'react-intl'
+import LangSwitch from './LangSwitch'
 import ThemeSwitch from './ThemeSwitch'
 
 const NavbarTop = () => {
@@ -27,28 +29,32 @@ const NavbarTop = () => {
 
 						<FaEnvelope className='text-white ml-4 mr-1 max-lg:hidden' />
 						<span className='text-sm text-white max-lg:hidden'>
-							Elektron pochta: info@natlib.uz
+							<FormattedMessage id='email' />: info@natlib.uz
 						</span>
 					</div>
 					<div className='inline-flex items-center gap-4'>
 						<a href='#' className='text-white text-sm max-lg:hidden'>
-							Sayt xaritasi
+							<FormattedMessage id='siteMap' />
 						</a>
 						<ThemeSwitch />
-
+						<LangSwitch />
 						<a
 							href=''
 							className='inline-flex items-center text-white text-sm max-lg:hidden'
 						>
 							<IoLogInOutline className='text-xl mr-1' />
-							<span className='hover:underline'>Kirish</span>
+							<span className='hover:underline'>
+								<FormattedMessage id='login' />
+							</span>
 						</a>
 						<a
 							href=''
 							className='inline-flex items-center text-white text-sm before:w-0.5 before:h-5 before:bg-white before:mr-2 max-lg:hidden'
 						>
 							<FaUser className='text-base mr-1' />
-							<span className='hover:underline'>Ro'yxatdan o'tish</span>
+							<span className='hover:underline'>
+								<FormattedMessage id='register' />
+							</span>
 						</a>
 					</div>
 				</div>

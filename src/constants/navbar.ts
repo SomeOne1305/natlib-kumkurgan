@@ -29,6 +29,7 @@ export const navbar = [
 			},
 			{
 				title: 'Matbuot xizmati',
+				link: 'docs/press-service',
 			},
 		],
 	},
@@ -41,6 +42,7 @@ export const navbar = [
 			},
 			{
 				title: 'Hujjatlar',
+				link: 'docs/important-documents',
 			},
 			{
 				title: "Maqola va ma'ruzalar",
@@ -121,6 +123,7 @@ export const navbar = [
 		children: [
 			{
 				title: 'Yangiliklar',
+				link: 'news',
 			},
 			{
 				title: "Ko'p beriladigan savollar",
@@ -130,9 +133,11 @@ export const navbar = [
 			},
 			{
 				title: 'Tadbirlar',
+				link: 'events',
 			},
 			{
 				title: 'Multimedia',
+				link: 'media',
 			},
 			{
 				title: 'Ovoz berish',

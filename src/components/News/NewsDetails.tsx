@@ -7,19 +7,20 @@ import {
 	FaTelegram,
 } from 'react-icons/fa'
 import { IoArrowBack } from 'react-icons/io5'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 
 const NewsDetails = () => {
-	// const { slug } = useParams<{ slug: string }>()
-	// const navigate = useNavigate()
-	// const location = useLocation()
-	const shareLink = window.location.origin // location.pathname
-	console.log(shareLink)
+	const { slug } = useParams<{ slug: string }>()
+	const navigate = useNavigate()
+	const location = useLocation()
+	const shareLink = window.location.origin + location.pathname
+	console.log(shareLink, slug)
 
 	return (
 		<div className='w-full p-4'>
 			<div
 				className='inline-block p-1.5 rounded-full hover:bg-blue-100 transition-colors duration-150 mb-4 cursor-pointer dark:hover:bg-[#1e283f]'
-				onClick={() => console.log(-1)}
+				onClick={() => navigate(-1)}
 			>
 				<IoArrowBack className='text-2xl sm:text-3xl text-blue-950 dark:text-white' />
 			</div>
