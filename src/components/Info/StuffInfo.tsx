@@ -1,6 +1,6 @@
 const StuffInfo = () => {
 	return (
-		<div className='w-full'>
+		<div className='w-full dark:text-slate-100'>
 			<div className='w-full mt-4 flex items-start'>
 				<div className='w-40'>
 					<img
@@ -32,6 +32,15 @@ const StuffInfo = () => {
 						<span className='font-bold'>Email:</span> info@natlib.uz
 					</p>
 				</div>
+			</div>
+			<div className='py-3 px-1 mt-3'>
+				<a
+					href='https://uznel.natlib.uz:444/FN/dl_image/uload/userfiles/files/Matbuot%20NIZOM.pdf'
+					target='_blank'
+					className='text-blue-500 hover:underline'
+				>
+					Matbuot nizom (.pdf 385 KB)
+				</a>
 			</div>
 			<div className='w-full py-3 mt-5 text-justify'>
 				<span className='font-bold'>Vazifalari</span>

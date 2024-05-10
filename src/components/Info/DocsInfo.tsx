@@ -1,7 +1,7 @@
 const DocsInfo = () => {
 	return (
 		<div className='w-full'>
-			<div className='w-full py-4 px-2 mt-4 text-justify text-base'>
+			<div className='w-full py-4 px-2 mt-4 text-justify text-base dark:text-slate-100'>
 				<h3 className='text-lg font-bold'>
 					QIMMATBAHO METALLARNI BIRJA SAVDOLARIDA SOTISHDA ZARGARLIK SOHASIDA
 					ISH O‘RINLARINI YARATGAN TADBIRKORLIK SUBYEKTLARIGA CHEGIRMALAR BERISH

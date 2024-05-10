@@ -8,7 +8,9 @@ interface ITheme {
 const useThemeStore = create(
 	persist<ITheme>(
 		set => ({
-			theme: 'light',
+			theme: window.matchMedia('(prefers-color-scheme: dark)').matches
+				? 'dark'
+				: 'light',
 			setTheme: () =>
 				set(state => ({
 					theme: state.theme === 'light' ? 'dark' : 'light',

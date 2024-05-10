@@ -27,7 +27,7 @@ const BookDetails = ({ id, children }: { id: string; children: ReactNode }) => {
 				<div className='container'>
 					<div className='w-full py-3'>
 						<div className='w-full py-2 mt-2 grid grid-cols-1 sm:grid-cols-3 items-start'>
-							<div className='flex'>
+							<div className='flex pt-5'>
 								<img
 									className='w-full h-full object-cover rounded-lg border border-gray-300'
 									src={book?.volumeInfo?.imageLinks?.extraLarge}

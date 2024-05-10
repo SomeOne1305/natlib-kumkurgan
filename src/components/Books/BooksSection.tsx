@@ -16,7 +16,7 @@ const BooksSection = () => {
 	}
 
 	return (
-		<div className='w-full'>
+		<div className='w-full py-4'>
 			{/* <Info id={id}>
 				<span
 					className='text-2xl mt-3 ml-auto float-end mr-2 text-slate-100'
