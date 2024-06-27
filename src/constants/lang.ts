@@ -1,7 +1,9 @@
+import { engFlag, rusFlag, uzbFlag } from '../assets/flags'
+
 const flags = {
-	uzb: 'https://cdn-icons-png.flaticon.com/512/14063/14063216.png',
-	rus: 'https://cdn-icons-png.flaticon.com/512/330/330437.png',
-	eng: 'https://cdn-icons-png.flaticon.com/512/330/330425.png',
+	uzb: uzbFlag,
+	rus: rusFlag,
+	eng: engFlag,
 }
 
 const lang: { lang: 'uz' | 'ru' | 'eng'; word: string; flag: string }[] = [

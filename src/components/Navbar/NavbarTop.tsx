@@ -9,6 +9,7 @@ import { IoLogInOutline } from 'react-icons/io5'
 import { FormattedMessage } from 'react-intl'
 import LangSwitch from './LangSwitch'
 import ThemeSwitch from './ThemeSwitch'
+import ViewSwitch from './ViewSwitch'
 
 const NavbarTop = () => {
 	return (
@@ -38,6 +39,7 @@ const NavbarTop = () => {
 						</a>
 						<ThemeSwitch />
 						<LangSwitch />
+						<ViewSwitch />
 						<a
 							href=''
 							className='inline-flex items-center text-white text-sm max-lg:hidden'

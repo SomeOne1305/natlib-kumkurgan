@@ -4,15 +4,18 @@ import { IBook } from '../../types'
 
 const BookDetails = ({ id, children }: { id: string; children: ReactNode }) => {
 	const [book, setBook] = useState<IBook>({} as IBook)
-	const getData = async () => {
-		if (id) {
-			await fetch(`https://www.googleapis.com/books/v1/volumes/${id}`)
-				.then(res => res.json())
-				.then(data => setBook(data))
-		}
-	}
-
 	useEffect(() => {
+		const getData = async () => {
+			if (id) {
+				try {
+					await fetch(`https://www.googleapis.com/books/v1/volumes/${id}`)
+						.then(res => res.json())
+						.then(data => setBook(data))
+				} catch (error) {
+					console.log(error)
+				}
+			}
+		}
 		getData()
 	}, [id])
 	return (

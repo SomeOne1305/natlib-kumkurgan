@@ -1,6 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider } from 'react-router-dom'
+import 'swiper/css'
+import 'swiper/css/bundle'
 import LanguageProvider from './Providers/LanguageProvider.tsx'
 import { router } from './Router.tsx'
 import './index.css'

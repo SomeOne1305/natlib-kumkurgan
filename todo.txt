@@ -1,0 +1,3 @@
+1. Add text mode
+2. Make all pages with contstant data
+3. Make all routes

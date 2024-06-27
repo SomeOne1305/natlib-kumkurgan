@@ -2,12 +2,15 @@ import { create } from 'zustand'
 
 interface ISize {
 	size: 'default' | 'base' | 'large'
+}
+
+interface ISizeStore extends ISize {
 	setSize: (arg: 'default' | 'base' | 'large') => void
 }
 
-const useTextSizeStore = create<ISize>(set => ({
+const useTextSizeStore = create<ISizeStore>(set => ({
 	size: 'default',
-	setSize: () => set(state => ({ size: state.size })),
+	setSize: size => set(() => ({ size })),
 }))
 
 export default useTextSizeStore

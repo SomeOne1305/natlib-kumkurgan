@@ -5,27 +5,35 @@ export const navbar = [
 		children: [
 			{
 				title: "O'quv zallari",
+				link: 'docs/study-halls',
 			},
 			{
 				title: 'Kutubxona rejalari',
+				link: 'docs/library-plans',
 			},
 			{
 				title: 'Tuzilma',
+				link: 'docs/structure',
 			},
 			{
-				title: 'Rahbariya',
+				title: 'Rahbariyat',
+				link: 'docs/management',
 			},
 			{
 				title: 'Kutubxona tarixi',
+				link: 'docs/history-of-library',
 			},
 			{
 				title: 'AKM',
+				link: 'docs/akm',
 			},
 			{
 				title: 'TAKM',
+				link: 'docs/takm',
 			},
 			{
 				title: "Respublika yig'ma elektron katalog markazi",
+				link: 'docs/catalog-center-of-republic',
 			},
 			{
 				title: 'Matbuot xizmati',
@@ -127,6 +135,7 @@ export const navbar = [
 			},
 			{
 				title: "Ko'p beriladigan savollar",
+				link: '/faqs',
 			},
 			{
 				title: 'Savollar va javoblar',
@@ -134,6 +143,9 @@ export const navbar = [
 			{
 				title: 'Tadbirlar',
 				link: 'events',
+			},
+			{
+				title: "E'lonlar",
 			},
 			{
 				title: 'Multimedia',

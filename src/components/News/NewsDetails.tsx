@@ -8,6 +8,7 @@ import {
 } from 'react-icons/fa'
 import { IoArrowBack } from 'react-icons/io5'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { Paragraph, Span } from '../ui'
 
 const NewsDetails = () => {
 	const { slug } = useParams<{ slug: string }>()
@@ -68,27 +69,41 @@ const NewsDetails = () => {
 			</div>
 			<div className='py-2 text-3xl font-bold dark:text-slate-100'>
 				<h2>
-					The Time Is Running Out! Think About These 6 Ways To Change Your
-					Library. How To Restore Library?
+					<Span onBase='text-[33px]' onLarge='text-4xk'>
+						The Time Is Running Out! Think About These 6 Ways To Change Your
+						Library. How To Restore Library?
+					</Span>
 				</h2>
 			</div>
 
-			<div className='w-full text-lg'>
-				<p className='mt-3 dark:text-gray-300'>
+			<div className='w-full'>
+				<Paragraph
+					onBase='text-xl'
+					onLarge='text-[22px]'
+					className='text-lg mt-4 dark:text-gray-300'
+				>
 					Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus
 					adipisci quidem magnam, repellendus dolore aliquid atque qui. Deleniti
 					quos veritatis nam non modi ipsum. Enim repudiandae dolores vero ut
 					odio cumque, earum saepe nobis id quas aut esse dolore.
-				</p>
-				<p className='mt-3 dark:text-gray-300'>
+				</Paragraph>
+				<Paragraph
+					onBase='text-xl'
+					onLarge='text-[22px]'
+					className='text-lg mt-4 dark:text-gray-300'
+				>
 					Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perspiciatis
 					mollitia incidunt id consequuntur expedita inventore molestiae optio
 					provident eveniet quisquam sequi ut a eligendi, molestias odio
 					explicabo facilis, placeat dolor. Aliquam harum distinctio possimus
 					velit in deserunt inventore ab consequatur enim suscipit dolorum cum
 					voluptate odit aut, et, at impedit obcaecati illum.
-				</p>
-				<p className='mt-4 dark:text-gray-300'>
+				</Paragraph>
+				<Paragraph
+					onBase='text-xl'
+					onLarge='text-[22px]'
+					className='text-lg mt-4 dark:text-gray-300'
+				>
 					Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore
 					mollitia velit ea quod. Unde rerum perspiciatis nostrum deleniti
 					ratione? Quo voluptas, laboriosam laudantium reprehenderit nam
@@ -107,7 +122,7 @@ const NewsDetails = () => {
 					odit quod eveniet asperiores quidem beatae itaque, eaque maiores
 					recusandae ipsum accusamus, vero facilis. Autem distinctio cupiditate
 					beatae eaque, qui eius!
-				</p>
+				</Paragraph>
 
 				<div className='w-full flex items-center flex-wrap my-3 py-3 '>
 					<h3 className='text-xl font-bold dark:text-white'>Teglar: </h3>
@@ -123,6 +138,120 @@ const NewsDetails = () => {
 					<span className='p-1 text-sm mt-1.5 rounded-lg bg-blue-500 text-white hover:underline mx-1.5'>
 						#KitoblarKuni
 					</span>
+				</div>
+				<div className='w-full py-4'>
+					<div className='w-full py-2 border-b dark:border-gray-600 mt-[5%]'>
+						<Span
+							onBase='text-[27px]'
+							onLarge='text-3xl'
+							className='text-3xl font-bold dark:text-slate-100'
+						>
+							Izohlar
+						</Span>
+					</div>
+					<div className='w-full p-4 flex flex-col-reverse lg:flex-row'>
+						<div className='lg:w-2/3'>
+							<div className='w-full p-2'>
+								{Array(6)
+									.fill('comment')
+									.map((comment, i) => (
+										<div className='w-full p-2 inline-flex items-start rounded-md'>
+											<div className='w-10 h-10' key={comment + '_' + i}>
+												<img
+													src='https://ik.imagekit.io/lhvoxkb7i/users/default-user_kHqfmeEDX?updatedAt=1715854915388'
+													alt=''
+													className='w-10 h-full rounded-full'
+												/>
+											</div>
+											<Paragraph
+												onBase='text-lg'
+												onLarge='text-xl'
+												className='w-[95%] m-1 mt-0 p-[0_8px_8px_8px] text-base dark:text-gray-300 text-gray-700 block'
+											>
+												<span className='font-bold mr-1 dark:text-slate-100'>
+													Anonymous:
+												</span>
+												Lorem, ipsum dolor sit amet consectetur adipisicing
+												elit. Doloribus, itaque dolorum? Minus ad, odio
+												aspernatur natus corporis vitae ipsa amet iste. Ipsum
+												provident in excepturi nemo molestias voluptatum modi
+												nobis ab maxime quam?
+												<p className='w-full mt-2'>
+													<span className='text-sm text-blue-500 mr-4'>
+														17:30
+													</span>
+													<span className='text-sm text-gray-400 mr-4'>
+														{'3 days ago'}
+													</span>
+												</p>
+											</Paragraph>
+										</div>
+									))}
+							</div>
+						</div>
+						<div className='lg:w-1/3'>
+							<form
+								id='commentForm'
+								className='p-5 rounded-lg bg-[#f4f6f6] dark:bg-[#172442]'
+							>
+								<div className='form-group'>
+									<h4 className='text-xl font-semibold dark:text-slate-100'>
+										Leave a comment
+									</h4>
+									<label
+										htmlFor='message'
+										className='block mt-4 mb-2 text-sm font-medium text-gray-700 dark:text-gray-300'
+									>
+										Message
+									</label>
+									<textarea
+										name='msg'
+										id='message'
+										cols={30}
+										rows={5}
+										className='form-control block w-full mt-1 dark:bg-slate-900 dark:text-white rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm outline-none p-1'
+									></textarea>
+								</div>
+								<div className='form-group'>
+									<label
+										htmlFor='fullname'
+										className='block mt-4 mb-2 text-sm font-medium text-gray-700 dark:text-gray-300'
+									>
+										Name
+									</label>
+									<input
+										type='text'
+										name='name'
+										id='fullname'
+										className='form-control block w-full mt-1 p-1.5 rounded-md dark:bg-slate-900 dark:text-white shadow-sm outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
+									/>
+								</div>
+								<div className='form-group'>
+									<label
+										htmlFor='email'
+										className='block mt-4 mb-2 text-sm font-medium text-gray-700 dark:text-gray-300'
+									>
+										Email
+									</label>
+									<input
+										type='text'
+										name='email'
+										id='email'
+										className='form-control block w-full mt-1 p-1.5 rounded-md dark:bg-slate-900 dark:text-white shadow-sm outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
+									/>
+								</div>
+								<div className='w-full py-2 mt-2 flex justify-end'>
+									<button
+										type='button'
+										id='post'
+										className='inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 outline-none'
+									>
+										Post Comment
+									</button>
+								</div>
+							</form>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

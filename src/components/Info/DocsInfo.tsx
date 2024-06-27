@@ -2,12 +2,12 @@ const DocsInfo = () => {
 	return (
 		<div className='w-full'>
 			<div className='w-full py-4 px-2 mt-4 text-justify text-base dark:text-slate-100'>
-				<h3 className='text-lg font-bold'>
+				<h3 className='text-lg font-bold [body.large]:text-xl [body.larger]:text-2xl'>
 					QIMMATBAHO METALLARNI BIRJA SAVDOLARIDA SOTISHDA ZARGARLIK SOHASIDA
 					ISH O‘RINLARINI YARATGAN TADBIRKORLIK SUBYEKTLARIGA CHEGIRMALAR BERISH
 					TARTIBINI TAKOMILLASHTIRISH TO‘G‘RISIDA
 				</h3>
-				<p className='mt-2'>
+				<p className='mt-4 py-2'>
 					O‘zbekiston Respublikasi Prezidentining “Zargarlik buyumlarini ishlab
 					chiqarish quvvatlarini kengaytirish va mahalliy zargarlarni har
 					tomonlama qo‘llab-quvvatlash bo‘yicha qo‘shimcha chora-tadbirlar

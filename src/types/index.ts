@@ -1,3 +1,7 @@
+import Swiper from 'swiper'
+
+export class SwiperType extends Swiper {}
+
 export interface IBook {
 	id: string
 	selfLink: string
@@ -85,4 +89,9 @@ export interface IBook {
 	searchInfo?: {
 		textSnippet?: string
 	}
+}
+
+export interface IText {
+	onBase: string
+	onLarge: string
 }
