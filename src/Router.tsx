@@ -5,7 +5,6 @@ import {
 	createRoutesFromElements,
 } from 'react-router-dom'
 import App from './App'
-import Books from './components/Books/Books'
 import EventsDetails from './components/Events/EventsDetails'
 import EventsSection from './components/Events/EventsSection'
 import DocsInfo from './components/Info/DocsInfo'
@@ -14,7 +13,8 @@ import MediaSection from './components/Media/MediaSection'
 import NewsDetails from './components/News/NewsDetails'
 import NewsSection from './components/News/NewsSection'
 import { MainLayout, Section } from './layouts'
-import { Faq, Home } from './pages'
+import { BooksPage, Faq, Home } from './pages'
+import Contact from './pages/Contact'
 import {
 	Akm,
 	CatalogCenter,
@@ -32,6 +32,20 @@ export const router = createBrowserRouter(
 		<Route element={<App />}>
 			<Route path='/' element={<MainLayout />}>
 				<Route path='' element={<Home />} />
+				<Route path='books' element={<BooksPage />} />
+				<Route path='contact' element={<Section />}>
+					<Route
+						path=''
+						element={<Contact />}
+						handle={{
+							crumb: () => (
+								<span className='text-xl mx-2'>
+									{'> '}Kutubxona haqida {'> '} Matbuot xizmati
+								</span>
+							),
+						}}
+					/>
+				</Route>
 				<Route
 					path='news'
 					element={<Section />}
@@ -63,9 +77,6 @@ export const router = createBrowserRouter(
 				</Route>
 				<Route path='faqs' element={<Section />}>
 					<Route path='' element={<Faq />} />
-				</Route>
-				<Route path='books' element={<Section />}>
-					<Route path='' element={<Books />} />
 				</Route>
 				<Route path='media' element={<Section />}>
 					<Route path='' element={<MediaSection />} />

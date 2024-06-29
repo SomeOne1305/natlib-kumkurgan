@@ -60,50 +60,65 @@ const Header = () => {
 			</AnimatePresence>
 			<div className='container'>
 				<div className='w-full flex items-center border-b border-gray-400 max-lg:hidden'>
-					{navbar.map(item => (
-						<div
-							className='inline-flex items-center relative group mr-2'
-							key={'nav ' + item.id}
-							onMouseEnter={() => setIsHover(item.id)}
-							onMouseLeave={() => setIsHover(0)}
-						>
-							<span className='text-base inline-flex text-gray-600 cursor-pointer px-2 py-3 hover:text-blue-800 dark:hover:text-blue-700 dark:text-slate-300'>
-								{item.title}{' '}
-								{item.children && (
-									<PiCaretDown className='text-lg ml-2 mt-0.5 rotate-0 group-hover:-rotate-180 transition-transform duration-200' />
-								)}
-							</span>
-							<AnimatePresence>
-								{item.children && isHover === item.id && (
-									<motion.ul
-										initial={{ opacity: 0, top: '150%' }}
-										animate={{ opacity: 1, top: '99%' }}
-										exit={{ opacity: 0, top: '150%' }}
-										transition={{ duration: 0.3 }}
-										className='inline-flex flex-col items-start py-1 absolute top-[99%] transiton-all duration-300 left-0 border border-gray-200 dark:border-gray-700	 rounded-b-md z-10 bg-white dark:bg-[#141b2c]'
-									>
-										{item.children?.map((i, z) => (
-											<li
-												key={'Child ' + z}
-												className={`w-full py-2 px-3 text-base ${
-													i.title?.split(' ')?.length <= 3
-														? 'whitespace-nowrap'
-														: ''
-												} hover:bg-gray-100 dark:hover:bg-[#252836] hover:text-blue-800 dark:hover:text-blue-700 dark:text-slate-300 list-none`}
-											>
-												<Link
-													to={i.link ? i.link : '/'}
-													className='flex relative'
+					{navbar.map(item =>
+						!item.link ? (
+							<div
+								className='inline-flex items-center relative group mr-2'
+								key={'nav ' + item.id}
+								onMouseEnter={() => setIsHover(item.id)}
+								onMouseLeave={() => setIsHover(0)}
+							>
+								<span className='text-base inline-flex text-gray-600 cursor-pointer px-2 py-3 hover:text-blue-800 dark:hover:text-blue-700 dark:text-slate-300'>
+									{item.title}{' '}
+									{item.children && (
+										<PiCaretDown className='text-lg ml-2 mt-0.5 rotate-0 group-hover:-rotate-180 transition-transform duration-200' />
+									)}
+								</span>
+								<AnimatePresence>
+									{item.children && isHover === item.id && (
+										<motion.ul
+											initial={{ opacity: 0, top: '150%' }}
+											animate={{ opacity: 1, top: '99%' }}
+											exit={{ opacity: 0, top: '150%' }}
+											transition={{ duration: 0.3 }}
+											className='inline-flex flex-col items-start py-1 absolute top-[99%] transiton-all duration-300 left-0 border border-gray-200 dark:border-gray-700	 rounded-b-md bg-white dark:bg-[#141b2c] z-30'
+										>
+											{item.children?.map((i, z) => (
+												<li
+													key={'Child ' + z}
+													className={`w-full py-2 px-3 text-base ${
+														i.title?.split(' ')?.length <= 3
+															? 'whitespace-nowrap'
+															: ''
+													} hover:bg-gray-100 dark:hover:bg-[#252836] hover:text-blue-800 dark:hover:text-blue-700 dark:text-slate-300 list-none`}
 												>
-													{i.title}
-												</Link>
-											</li>
-										))}
-									</motion.ul>
-								)}
-							</AnimatePresence>
-						</div>
-					))}
+													<Link
+														to={i.link ? i.link : '/'}
+														className='flex relative'
+													>
+														{i.title}
+													</Link>
+												</li>
+											))}
+										</motion.ul>
+									)}
+								</AnimatePresence>
+							</div>
+						) : (
+							<Link
+								to={item?.link}
+								className='inline-flex items-center relative group mr-2'
+								key={'nav ' + item.id}
+							>
+								<span className='text-base inline-flex text-gray-600 cursor-pointer px-2 py-3 hover:text-blue-800 dark:hover:text-blue-700 dark:text-slate-300'>
+									{item.title}{' '}
+									{item.children && (
+										<PiCaretDown className='text-lg ml-2 mt-0.5 rotate-0 group-hover:-rotate-180 transition-transform duration-200' />
+									)}
+								</span>
+							</Link>
+						)
+					)}
 				</div>
 			</div>
 		</div>

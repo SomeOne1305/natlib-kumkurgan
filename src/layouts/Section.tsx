@@ -6,7 +6,7 @@ const Section = () => {
 		<div className='w-full'>
 			<Content />
 			<div className='container'>
-				<Outlet />
+				<Outlet />{' '}
 			</div>
 		</div>
 	)

@@ -26,3 +26,15 @@
 		background-position-x: -20%;
 	}
 }
+
+.scroll-hide {
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+}
+.scrool-hide::-webkit-scrollbar {
+	display: none;
+}
+
+.scrool-hide::-webkit-scrollbar-track {
+	height: 0;
+}
