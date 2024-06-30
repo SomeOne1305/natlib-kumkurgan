@@ -49,12 +49,17 @@ export const navbar = [
 		id: 5,
 		title: 'Mening kutubxonam',
 		children: [
-			{ title: "Shaxsiy ma'lumotlarni boshqarish" },
+			{
+				title: "Shaxsiy ma'lumotlarni boshqarish",
+				link: '/account/edit',
+			},
 			{
 				title: 'Mening javonim',
+				link: '/account/favourites',
 			},
 			{
 				title: 'Mening sharhim',
+				link: '/account/my-comments',
 			},
 		],
 	},

@@ -1,5 +1,6 @@
 import {
 	Link,
+	Navigate,
 	Route,
 	createBrowserRouter,
 	createRoutesFromElements,
@@ -12,9 +13,17 @@ import StuffInfo from './components/Info/StuffInfo'
 import MediaSection from './components/Media/MediaSection'
 import NewsDetails from './components/News/NewsDetails'
 import NewsSection from './components/News/NewsSection'
-import { MainLayout, Section } from './layouts'
-import { BooksPage, Faq, Home } from './pages'
-import Contact from './pages/Contact'
+import { AccountLayout, MainLayout, Section } from './layouts'
+import {
+	BooksPage,
+	Contact,
+	EditPage,
+	Faq,
+	Home,
+	MyBooksPage,
+	MyCommentsPage,
+} from './pages'
+
 import {
 	Akm,
 	CatalogCenter,
@@ -33,16 +42,18 @@ export const router = createBrowserRouter(
 			<Route path='/' element={<MainLayout />}>
 				<Route path='' element={<Home />} />
 				<Route path='books' element={<BooksPage />} />
+				<Route path='account' element={<AccountLayout />}>
+					<Route path='' element={<Navigate to={'edit'} replace={true} />} />
+					<Route path='edit' element={<EditPage />} />
+					<Route path='favourites' element={<MyBooksPage />} />
+					<Route path='my-comments' element={<MyCommentsPage />} />
+				</Route>
 				<Route path='contact' element={<Section />}>
 					<Route
 						path=''
 						element={<Contact />}
 						handle={{
-							crumb: () => (
-								<span className='text-xl mx-2'>
-									{'> '}Kutubxona haqida {'> '} Matbuot xizmati
-								</span>
-							),
+							crumb: () => <span className='text-xl mx-2'>{'> '} Contact</span>,
 						}}
 					/>
 				</Route>

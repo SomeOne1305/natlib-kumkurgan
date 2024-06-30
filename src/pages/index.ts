@@ -1,3 +1,7 @@
 export { default as BooksPage } from './BooksPage'
+export { default as Contact } from './Contact'
+export { default as EditPage } from './EditPage'
 export { default as Faq } from './Faq'
 export { default as Home } from './Home'
+export { default as MyBooksPage } from './MyBooksPage'
+export { default as MyCommentsPage } from './MyCommentsPage'
