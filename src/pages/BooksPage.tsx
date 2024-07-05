@@ -1,4 +1,6 @@
 import 'swiper/css/scrollbar'
+import { Navigation } from 'swiper/modules'
+import { Swiper, SwiperSlide } from 'swiper/react'
 import videoSrc from '../assets/background.mp4'
 import Books from '../components/Books/Books'
 import { Span } from '../components/ui'
@@ -63,13 +65,12 @@ const BooksPage = () => {
 			<div className='w-full'>
 				<div className='container'>
 					<div className='w-full py-3 mx-5'>
-						{/* <Swiper
-							scrollbar={{
-								hide: true,
-							}}
-							slidesPerView={10}
-							watchOverflow
-							modules={[Scrollbar]}
+						<Swiper
+							spaceBetween={10}
+							slidesPerView={'auto'}
+							slidesPerGroup={9}
+							navigation={true}
+							modules={[Navigation]}
 						>
 							{[
 								'Biography',
@@ -103,7 +104,7 @@ const BooksPage = () => {
 									</Span>
 								</SwiperSlide>
 							))}
-						</Swiper> */}
+						</Swiper>
 						<div className='w-full py-3 mb-5'>
 							<h2 className='text-3xl font-bold'>Kitoblar</h2>
 						</div>

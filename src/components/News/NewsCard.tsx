@@ -16,7 +16,7 @@ const NewsCard = () => {
 		.replace(/-+$/, '')
 	return (
 		<div className='flex flex-col items-center '>
-			<Link to={slug} className='flex flex-col group'>
+			<Link to={'news/' + slug} className='flex flex-col group'>
 				<img
 					src='https://bookland.dexignzone.com/xhtml/images/blog/large/blog2.jpg'
 					className='w-full h-52 rounded-md object-cover'

@@ -29,6 +29,7 @@ export default {
 			},
 			backgroundImage: {
 				crumbs: "#264DB1,url('./src/assets/patterns/moroccan.svg')",
+				tick: "url('/src/assets/tick.svg')",
 			},
 		},
 	},

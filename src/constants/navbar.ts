@@ -11,10 +11,10 @@ export const navbar = [
 				title: 'Rahbariyat',
 				link: 'docs/management',
 			},
-			{
-				title: 'Kutubxona tarixi',
-				link: 'docs/history-of-library',
-			},
+			// {
+			// 	title: 'Kutubxona tarixi',
+			// 	link: 'docs/history-of-library',
+			// },
 		],
 	},
 	{
@@ -29,16 +29,16 @@ export const navbar = [
 				title: "Ko'p beriladigan savollar",
 				link: '/faqs',
 			},
-			{
-				title: 'Savollar va javoblar',
-			},
+			// {
+			// 	title: 'Savollar va javoblar',
+			// },
 			{
 				title: 'Tadbirlar',
 				link: 'events',
 			},
-			{
-				title: "E'lonlar",
-			},
+			// {
+			// 	title: "E'lonlar",
+			// },
 			{
 				title: 'Multimedia',
 				link: 'media',
@@ -67,9 +67,9 @@ export const navbar = [
 		id: 6,
 		title: 'Qidiruv',
 		children: [
-			{
-				title: 'Umumiy qidiruv',
-			},
+			// {
+			// 	title: 'Umumiy qidiruv',
+			// },
 			{
 				title: 'Kitoblar',
 				link: 'books',

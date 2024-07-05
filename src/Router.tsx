@@ -13,15 +13,17 @@ import StuffInfo from './components/Info/StuffInfo'
 import MediaSection from './components/Media/MediaSection'
 import NewsDetails from './components/News/NewsDetails'
 import NewsSection from './components/News/NewsSection'
-import { AccountLayout, MainLayout, Section } from './layouts'
+import { AccountLayout, AuthLayout, MainLayout, Section } from './layouts'
 import {
 	BooksPage,
 	Contact,
 	EditPage,
 	Faq,
 	Home,
+	Login,
 	MyBooksPage,
 	MyCommentsPage,
+	Register,
 } from './pages'
 
 import {
@@ -47,6 +49,11 @@ export const router = createBrowserRouter(
 					<Route path='edit' element={<EditPage />} />
 					<Route path='favourites' element={<MyBooksPage />} />
 					<Route path='my-comments' element={<MyCommentsPage />} />
+				</Route>
+				<Route path='auth' element={<AuthLayout />}>
+					<Route path='' element={<Navigate to={'login'} replace={true} />} />
+					<Route path='login' element={<Login />} />
+					<Route path='register' element={<Register />} />
 				</Route>
 				<Route path='contact' element={<Section />}>
 					<Route

@@ -6,7 +6,7 @@ import { MdAlternateEmail } from 'react-icons/md'
 import { SlPrinter } from 'react-icons/sl'
 import { FormattedMessage } from 'react-intl'
 import LocationAdd from '../components/LocationAdd'
-import { Span } from '../components/ui'
+import { Button, Input, Span } from '../components/ui'
 
 const Contact = () => {
 	return (
@@ -18,8 +18,8 @@ const Contact = () => {
 							<FaRegMap className='text-blue-900 text-xl m-1' />
 						</div>
 						<div className='w-4/5 gap-2 ml-4'>
-							<h3 className='text-lg font-bold'>Manzil</h3>
-							<p className='text-base text-gray-600'>
+							<h3 className='text-lg font-bold dark:text-slate-100'>Manzil</h3>
+							<p className='text-base text-gray-600 dark:text-slate-100'>
 								<Span onBase='text-lg' onLarge='text-xl'>
 									Lorem ipsum dolor sit amet, consectetur adipisicing elit.
 									Ipsum commodi aspernatur eligendi voluptatibus ratione!
@@ -32,7 +32,9 @@ const Contact = () => {
 							<BsTelephone className='text-blue-900 text-xl m-1' />
 						</div>
 						<div className='w-4/5 gap-2 ml-4'>
-							<h3 className='text-lg font-bold'>Ishonch telefon raqami</h3>
+							<h3 className='text-lg font-bold dark:text-slate-100'>
+								Ishonch telefon raqami
+							</h3>
 							<p className='text-base'>
 								<a
 									href='#'
@@ -61,7 +63,9 @@ const Contact = () => {
 							<MdAlternateEmail className='text-blue-900 text-xl m-1' />
 						</div>
 						<div className='w-4/5 gap-2 ml-4'>
-							<h3 className='text-lg font-bold'>Elektron pochta manzili</h3>
+							<h3 className='text-lg font-bold dark:text-slate-100'>
+								Elektron pochta manzili
+							</h3>
 							<p className='text-base'>
 								<a
 									href='#'
@@ -80,7 +84,7 @@ const Contact = () => {
 							<SlPrinter className='text-blue-900 text-xl m-1' />
 						</div>
 						<div className='w-4/5 gap-2 ml-4'>
-							<h3 className='text-lg font-bold'>Faks</h3>
+							<h3 className='text-lg font-bold dark:text-slate-100'>Faks</h3>
 							<p className='text-base'>
 								<a
 									href='#'
@@ -99,8 +103,10 @@ const Contact = () => {
 							<CiCalendar className='text-blue-900 text-xl m-1' />
 						</div>
 						<div className='w-4/5 gap-2 ml-4'>
-							<h3 className='text-lg font-bold'>Ish vaqti</h3>
-							<p className='text-base text-gray-600'>
+							<h3 className='text-lg font-bold dark:text-slate-100'>
+								Ish vaqti
+							</h3>
+							<p className='text-base text-gray-600 dark:text-slate-100'>
 								<Span onBase='text-lg' onLarge='text-xl'>
 									Dushanba-juma 09:00-18:00
 								</Span>
@@ -118,36 +124,13 @@ const Contact = () => {
 					</p>
 					<form action='#' className='space-y-8'>
 						<div className='flex items-center gap-2'>
-							<div className='w-full'>
-								<label
-									htmlFor='name'
-									className='block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300'
-								>
-									Your name
-								</label>
-								<input
-									type='text'
-									id='name'
-									className='shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring outline-none focus:ring-blue-100 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-100 dark:focus:border-blue-500 dark:shadow-sm-light'
-									placeholder='name@flowbite.com'
-									required
-								/>
-							</div>
-							<div className='w-full'>
-								<label
-									htmlFor='surname'
-									className='block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300'
-								>
-									Your surname
-								</label>
-								<input
-									type='text'
-									id='surname'
-									className='shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring outline-none focus:ring-blue-100 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-100 dark:focus:border-blue-500 dark:shadow-sm-light'
-									placeholder='name@flowbite.com'
-									required
-								/>
-							</div>
+							<Input id='name' label='Your name' placeholder='name' required />
+							<Input
+								id='surname'
+								label='Your surname'
+								placeholder='surname'
+								required
+							/>
 						</div>
 						<div className='flex items-center gap-2'>
 							<div className='w-full'>
@@ -157,29 +140,22 @@ const Contact = () => {
 								>
 									Subject
 								</label>
-								<input
-									type='text'
+								<select
 									id='subject'
 									className='block p-3 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 shadow-sm focus:ring-blue-100 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-100 dark:focus:border-blue-500 dark:shadow-sm dark:shadow-gray-200 focus:ring outline-none'
-									placeholder='Let us know how we can help you'
 									required
-								/>
-							</div>
-							<div className='w-full'>
-								<label
-									htmlFor='number'
-									className='block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300'
 								>
-									Phone number
-								</label>
-								<input
-									type='tel'
-									id='number'
-									className='block p-3 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 shadow-sm focus:ring-blue-100 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-100 dark:focus:border-blue-500 dark:shadow-sm dark:shadow-gray-200 focus:ring outline-none'
-									placeholder='Let us know how we can help you'
-									required
-								/>
+									<option value='ask-question'>To ask personal question</option>
+									<option value='collabration'>Collabration</option>
+									<option value='other'>Other</option>
+								</select>
 							</div>
+							<Input
+								id='phone-number'
+								label='Phone number'
+								placeholder='+998 (XX) XXX-XX-XX'
+								required
+							/>
 						</div>
 
 						<div className='sm:col-span-2'>
@@ -194,14 +170,10 @@ const Contact = () => {
 								rows={6}
 								className='block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg shadow-sm border border-gray-300 focus:ring-blue-100 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 focus:ring outline-none'
 								placeholder='Leave a comment...'
+								required
 							></textarea>
 						</div>
-						<button
-							type='submit'
-							className='py-3 px-5 text-sm font-medium text-center text-white rounded-lg bg-blue-700 sm:w-fit hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300'
-						>
-							Send message
-						</button>
+						<Button type='submit'>Send message</Button>
 					</form>
 				</div>
 			</div>
