@@ -54,7 +54,7 @@ const VotingPoll = () => {
 				</h2>
 			</div>
 
-			<div className='flex justify-around items-center'>
+			<div className='flex flex-col md:flex-row justify-around items-center'>
 				<div className='max-w-xl max-h-[410px]'>
 					<img
 						src={illustration}
