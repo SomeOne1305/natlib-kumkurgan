@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import illustration from '../assets/POLL.svg'
+import image from '../assets/image copy.png'
 // Mock data for demonstration purposes
 const initialVotes = {
 	HTML: 1,
@@ -53,7 +54,7 @@ const VotingPoll = () => {
 					Bizni yaxshilashga yordam bering
 				</h2>
 			</div>
-
+			<img src={image} alt='' />
 			<div className='flex flex-col md:flex-row justify-around items-center'>
 				<div className='max-w-xl max-h-[410px]'>
 					<img
