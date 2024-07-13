@@ -1,8 +1,8 @@
 import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
-import illustration from '../assets/POLL.svg'
 import image from '../assets/image copy.png'
+import illustration from '../assets/POLL.svg'
 // Mock data for demonstration purposes
 const initialVotes = {
 	HTML: 1,
@@ -55,6 +55,9 @@ const VotingPoll = () => {
 				</h2>
 			</div>
 			<img src={image} alt='' />
+			<a href={'/file.rar'} download={'file'}>
+				Yuklash
+			</a>
 			<div className='flex flex-col md:flex-row justify-around items-center'>
 				<div className='max-w-xl max-h-[410px]'>
 					<img
