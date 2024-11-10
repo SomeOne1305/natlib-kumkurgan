@@ -1,3 +1,6 @@
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { useForm } from 'react-hook-form'
 import {
 	FaEye,
 	FaFacebook,
@@ -7,16 +10,51 @@ import {
 	FaTelegram,
 } from 'react-icons/fa'
 import { IoArrowBack } from 'react-icons/io5'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { FormattedMessage } from 'react-intl'
+import { useLoaderData, useLocation, useNavigate } from 'react-router-dom'
+import { STORAGE_PATH } from '../../constants/storage'
+import { CommentFormData, CommentScheme } from '../../schemes/comment.schema'
+import { NewsService } from '../../services/news.service'
+import { useLangStore } from '../../store'
+import { NewsType } from '../../types/news.type'
+import { timeAgo } from '../../utils/date-difference'
+import { dateToString } from '../../utils/date-to-string'
 import { Paragraph, Span } from '../ui'
-
 const NewsDetails = () => {
-	const { slug } = useParams<{ slug: string }>()
 	const navigate = useNavigate()
 	const location = useLocation()
 	const shareLink = window.location.origin + location.pathname
-	console.log(shareLink, slug)
-
+	const data = useLoaderData() as NewsType
+	const { lang } = useLangStore()
+	const {
+		data: comments,
+		isLoading,
+		refetch,
+	} = useQuery({
+		queryKey: ['GET_NEWS_COMMENTS'],
+		queryFn: async () => await NewsService.get_comments_of_news(data.id),
+	})
+	const {
+		register,
+		reset,
+		handleSubmit,
+		formState: { errors },
+	} = useForm<CommentFormData>({
+		resolver: zodResolver(CommentScheme),
+	})
+	const { mutateAsync } = useMutation({
+		mutationKey: ['WRITE_COMMENT', data.id],
+		mutationFn: async (arg: CommentFormData) =>
+			await NewsService.writeComment(arg, data.id),
+		onSuccess: async () => {
+			await refetch()
+			reset({} as CommentFormData)
+		},
+		onError: err => console.log(err),
+	})
+	const onSubmit = async (data: CommentFormData) => {
+		await mutateAsync(data)
+	}
 	return (
 		<div className='w-full p-4'>
 			<div
@@ -26,7 +64,7 @@ const NewsDetails = () => {
 				<IoArrowBack className='text-2xl sm:text-3xl text-blue-950 dark:text-white' />
 			</div>
 			<img
-				src='https://bookland.dexignzone.com/xhtml/images/blog/default/blog1.jpg'
+				src={STORAGE_PATH + 'news/' + data?.image}
 				className='w-full object-cover rounded-lg mb-3'
 				alt=''
 			/>
@@ -35,17 +73,21 @@ const NewsDetails = () => {
 					<div className='inline-flex items-center '>
 						<FaRegCalendarAlt className='text-base sm:text-lg text-blue-600 mr-1' />
 						<span className='text-sm sm:text-base text-gray-500'>
-							27 Aprel, 2024
+							{dateToString(lang, data.createdAt)}
 						</span>
 					</div>
 					<div className='inline-flex items-center ml-3'>
 						<FaRegClock className='text-base sm:text-lg text-blue-600 mr-1' />
-						<span className='text-sm sm:text-base text-gray-500'>16:33</span>
+						<span className='text-sm sm:text-base text-gray-500'>{`${new Date(
+							data.createdAt
+						).getHours()}:${new Date(data.createdAt).getMinutes()}`}</span>
 					</div>
 
 					<div className='inline-flex items-center ml-6'>
 						<FaEye className='text-base sm:text-lg text-blue-600 mr-1' />
-						<span className='text-sm sm:text-base text-gray-500'>163</span>
+						<span className='text-sm sm:text-base text-gray-500'>
+							{data.views}
+						</span>
 					</div>
 				</div>
 				<div className='inline-flex items-center'>
@@ -54,13 +96,13 @@ const NewsDetails = () => {
 						Ulashing:
 					</span>
 					<a
-						href={`https://www.facebook.com/sharer/sharer.php?u=${shareLink}&quote=<Title goes here...>`}
+						href={`https://www.facebook.com/sharer/sharer.php?u=${shareLink}&quote=${data?.title?.[lang]}`}
 						className=' m-1 sm:mx-1.5 p-1'
 					>
 						<FaFacebook className='text-xl sm:text-2xl md:text-3xl  text-blue-700' />
 					</a>
 					<a
-						href={`https://telegram.me/share/url?url=${shareLink}&text=<Title goes here...>`}
+						href={`https://telegram.me/share/url?url=${shareLink}&text=${data.title?.[lang]}`}
 						className=' m-1 sm:mx-1.5 p-1'
 					>
 						<FaTelegram className='text-xl sm:text-2xl md:text-3xl text-sky-500' />
@@ -70,8 +112,7 @@ const NewsDetails = () => {
 			<div className='py-2 text-3xl font-bold dark:text-slate-100'>
 				<h2>
 					<Span onBase='text-[33px]' onLarge='text-4xk'>
-						The Time Is Running Out! Think About These 6 Ways To Change Your
-						Library. How To Restore Library?
+						{data?.title?.[lang]}
 					</Span>
 				</h2>
 			</div>
@@ -82,62 +123,20 @@ const NewsDetails = () => {
 					onLarge='text-[22px]'
 					className='text-lg mt-4 dark:text-gray-300'
 				>
-					Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus
-					adipisci quidem magnam, repellendus dolore aliquid atque qui. Deleniti
-					quos veritatis nam non modi ipsum. Enim repudiandae dolores vero ut
-					odio cumque, earum saepe nobis id quas aut esse dolore.
-				</Paragraph>
-				<Paragraph
-					onBase='text-xl'
-					onLarge='text-[22px]'
-					className='text-lg mt-4 dark:text-gray-300'
-				>
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perspiciatis
-					mollitia incidunt id consequuntur expedita inventore molestiae optio
-					provident eveniet quisquam sequi ut a eligendi, molestias odio
-					explicabo facilis, placeat dolor. Aliquam harum distinctio possimus
-					velit in deserunt inventore ab consequatur enim suscipit dolorum cum
-					voluptate odit aut, et, at impedit obcaecati illum.
-				</Paragraph>
-				<Paragraph
-					onBase='text-xl'
-					onLarge='text-[22px]'
-					className='text-lg mt-4 dark:text-gray-300'
-				>
-					Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore
-					mollitia velit ea quod. Unde rerum perspiciatis nostrum deleniti
-					ratione? Quo voluptas, laboriosam laudantium reprehenderit nam
-					incidunt quae dolore iure expedita quos aliquam fugiat et eligendi,
-					quidem delectus, esse praesentium rerum temporibus sequi
-					necessitatibus inventore odio ducimus? Nihil eaque laboriosam ratione
-					accusamus, obcaecati autem quam veritatis asperiores, dolore quia,
-					voluptatum distinctio molestiae placeat consequuntur ipsum doloribus
-					inventore tempora mollitia magnam eos deserunt impedit? Amet esse fuga
-					inventore veniam nulla odit recusandae mollitia culpa dolorum fugit
-					distinctio facere molestias cumque quidem animi, voluptas magni
-					perferendis voluptatem eos! Rem dolor quo eum veniam earum tempora
-					rerum quam debitis. Iste corrupti, aperiam suscipit, fugiat culpa
-					sequi libero aut perspiciatis harum id expedita quisquam, similique
-					dolorum modi exercitationem accusantium. Illum facere nam maxime sint
-					odit quod eveniet asperiores quidem beatae itaque, eaque maiores
-					recusandae ipsum accusamus, vero facilis. Autem distinctio cupiditate
-					beatae eaque, qui eius!
+					{data?.body?.[lang]}
 				</Paragraph>
 
 				<div className='w-full flex items-center flex-wrap my-3 py-3 '>
 					<h3 className='text-xl font-bold dark:text-white'>Teglar: </h3>
-					<span className='p-1 text-sm mt-1.5 rounded-lg bg-blue-500 text-white hover:underline mx-1.5'>
-						#Yangilik
-					</span>
-					<span className='p-1 text-sm mt-1.5 rounded-lg bg-blue-500 text-white hover:underline mx-1.5'>
-						#Vatan
-					</span>
-					<span className='p-1 text-sm mt-1.5 rounded-lg bg-blue-500 text-white hover:underline mx-1.5'>
-						#Bayram
-					</span>
-					<span className='p-1 text-sm mt-1.5 rounded-lg bg-blue-500 text-white hover:underline mx-1.5'>
-						#KitoblarKuni
-					</span>
+
+					{data?.tags?.[lang].split(',').map((tag, i) => (
+						<span
+							key={'news_' + data.id + '_tag_' + i}
+							className='p-1 text-sm mt-1.5 rounded-lg bg-blue-500 text-white hover:underline mx-1.5'
+						>
+							#{tag}
+						</span>
+					))}
 				</div>
 				<div className='w-full py-4'>
 					<div className='w-full py-2 border-b dark:border-gray-600 mt-[5%]'>
@@ -152,10 +151,16 @@ const NewsDetails = () => {
 					<div className='w-full p-4 flex flex-col-reverse lg:flex-row'>
 						<div className='lg:w-2/3'>
 							<div className='w-full p-2'>
-								{Array(6)
-									.fill('comment')
-									.map((comment, i) => (
-										<div className='w-full p-2 inline-flex items-start rounded-md'>
+								{isLoading ? (
+									<span>Loading...</span>
+								) : (
+									comments &&
+									comments.length > 0 &&
+									comments.map((comment, i) => (
+										<div
+											className='w-full p-2 inline-flex items-start rounded-md'
+											key={'comment_' + comment.id}
+										>
 											<div className='w-10 h-10' key={comment + '_' + i}>
 												<img
 													src='https://ik.imagekit.io/lhvoxkb7i/users/default-user_kHqfmeEDX?updatedAt=1715854915388'
@@ -169,84 +174,82 @@ const NewsDetails = () => {
 												className='w-[95%] m-1 mt-0 p-[0_8px_8px_8px] text-base dark:text-gray-300 text-gray-700 block'
 											>
 												<span className='font-bold mr-1 dark:text-slate-100'>
-													Anonymous:
+													{comment.name}:
 												</span>
-												Lorem, ipsum dolor sit amet consectetur adipisicing
-												elit. Doloribus, itaque dolorum? Minus ad, odio
-												aspernatur natus corporis vitae ipsa amet iste. Ipsum
-												provident in excepturi nemo molestias voluptatum modi
-												nobis ab maxime quam?
+												{comment.message}
 												<p className='w-full mt-2'>
 													<span className='text-sm text-blue-500 mr-4'>
-														17:30
+														{`${new Date(
+															comment.createdAt
+														).getHours()}:${new Date(
+															comment.createdAt
+														).getMinutes()}`}
 													</span>
 													<span className='text-sm text-gray-400 mr-4'>
-														{'3 days ago'}
+														{timeAgo(comment.createdAt, lang)}
 													</span>
 												</p>
 											</Paragraph>
 										</div>
-									))}
+									))
+								)}
+								{comments && comments.length <= 0 && <span>No data</span>}
 							</div>
 						</div>
 						<div className='lg:w-1/3'>
 							<form
 								id='commentForm'
 								className='p-5 rounded-lg bg-[#f4f6f6] dark:bg-[#172442]'
+								onSubmit={handleSubmit(onSubmit)}
 							>
 								<div className='form-group'>
 									<h4 className='text-xl font-semibold dark:text-slate-100'>
-										Leave a comment
+										<FormattedMessage id='comment_title' />
 									</h4>
 									<label
 										htmlFor='message'
 										className='block mt-4 mb-2 text-sm font-medium text-gray-700 dark:text-gray-300'
 									>
-										Message
+										<FormattedMessage id='comment_mes' />
 									</label>
 									<textarea
-										name='msg'
 										id='message'
+										{...register('message')}
 										cols={30}
 										rows={5}
 										className='form-control block w-full mt-1 dark:bg-slate-900 dark:text-white rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm outline-none p-1'
 									></textarea>
+									<div className='w-full py-2  text-red-500'>
+										{errors.message && (
+											<FormattedMessage id='comment_err_mes' />
+										)}
+									</div>
 								</div>
 								<div className='form-group'>
 									<label
 										htmlFor='fullname'
 										className='block mt-4 mb-2 text-sm font-medium text-gray-700 dark:text-gray-300'
 									>
-										Name
+										<FormattedMessage id='comment_name' />
 									</label>
 									<input
 										type='text'
-										name='name'
+										{...register('name')}
 										id='fullname'
 										className='form-control block w-full mt-1 p-1.5 rounded-md dark:bg-slate-900 dark:text-white shadow-sm outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
 									/>
+									<div className='w-full py-2 text-red-500'>
+										{errors.name && <FormattedMessage id='comment_err_name' />}
+									</div>
 								</div>
-								<div className='form-group'>
-									<label
-										htmlFor='email'
-										className='block mt-4 mb-2 text-sm font-medium text-gray-700 dark:text-gray-300'
-									>
-										Email
-									</label>
-									<input
-										type='text'
-										name='email'
-										id='email'
-										className='form-control block w-full mt-1 p-1.5 rounded-md dark:bg-slate-900 dark:text-white shadow-sm outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
-									/>
-								</div>
+
 								<div className='w-full py-2 mt-2 flex justify-end'>
 									<button
-										type='button'
+										type='submit'
 										id='post'
 										className='inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 outline-none'
 									>
-										Post Comment
+										<FormattedMessage id='comment_sub' />
 									</button>
 								</div>
 							</form>

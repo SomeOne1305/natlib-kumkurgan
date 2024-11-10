@@ -8,15 +8,20 @@ import {
 } from 'react-icons/fa'
 import { IoArrowBack } from 'react-icons/io5'
 import { MdOutlineLocationOn } from 'react-icons/md'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLoaderData, useLocation, useNavigate } from 'react-router-dom'
+import { STORAGE_PATH } from '../../constants/storage'
+import { useLangStore } from '../../store'
+import { IEventType } from '../../types/event.type'
+import { dateToString } from '../../utils/date-to-string'
 
 const EventsDetails = () => {
-	// const { slug } = useParams<{ slug: string }>()
 	const navigate = useNavigate()
 	const location = useLocation()
 	const shareLink = window.location.origin + location.pathname
 	console.log(shareLink)
 
+	const data = useLoaderData() as IEventType
+	const { lang } = useLangStore()
 	return (
 		<div className='w-full p-4'>
 			<div
@@ -26,27 +31,31 @@ const EventsDetails = () => {
 				<IoArrowBack className='text-2xl sm:text-3xl text-blue-950 dark:text-white' />
 			</div>
 			<img
-				src='https://bbcnews.bbcstudios.com/media/6183/sustainability-in-business-thumbnail-1.jpg'
+				src={STORAGE_PATH + 'events/' + data?.source}
+				alt={data?.title?.[lang]}
 				className='w-full object-cover rounded-lg mb-3'
 				loading='lazy'
-				alt=''
 			/>
 			<div className='flex items-center justify-between gap-4 mt-8 mb-2 flex-wrap'>
 				<div className='inline-flex'>
 					<div className='inline-flex items-center '>
 						<FaRegCalendarAlt className='text-base sm:text-lg text-blue-600 mr-1' />
 						<span className='text-sm sm:text-base text-gray-500'>
-							27 Aprel, 2024
+							{dateToString(lang, data?.createdAt)}
 						</span>
 					</div>
 					<div className='inline-flex items-center ml-3'>
 						<FaRegClock className='text-base sm:text-lg text-blue-600 mr-1' />
-						<span className='text-sm sm:text-base text-gray-500'>16:33</span>
+						<span className='text-sm sm:text-base text-gray-500'>{`${new Date(
+							data?.createdAt
+						).getHours()}:${new Date(data.createdAt).getMinutes()}`}</span>
 					</div>
 
 					<div className='inline-flex items-center ml-6'>
 						<FaEye className='text-base sm:text-lg text-blue-600 mr-1' />
-						<span className='text-sm sm:text-base text-gray-500'>163</span>
+						<span className='text-sm sm:text-base text-gray-500'>
+							{data?.views}
+						</span>
 					</div>
 				</div>
 				<div className='inline-flex items-center'>
@@ -55,13 +64,13 @@ const EventsDetails = () => {
 						Ulashing:
 					</span>
 					<a
-						href={`https://www.facebook.com/sharer/sharer.php?u=${shareLink}&quote=<Title goes here...>`}
+						href={`https://www.facebook.com/sharer/sharer.php?u=${shareLink}&quote=${data?.title?.[lang]}`}
 						className=' m-1 sm:mx-1.5 p-1'
 					>
 						<FaFacebook className='text-xl sm:text-2xl md:text-3xl  text-blue-700' />
 					</a>
 					<a
-						href={`https://telegram.me/share/url?url=${shareLink}&text=<Title goes here...>`}
+						href={`https://telegram.me/share/url?url=${shareLink}&text=${data?.title?.[lang]}`}
 						className=' m-1 sm:mx-1.5 p-1'
 					>
 						<FaTelegram className='text-xl sm:text-2xl md:text-3xl text-sky-500' />
@@ -69,7 +78,7 @@ const EventsDetails = () => {
 				</div>
 			</div>
 			<div className='py-2 text-3xl font-bold dark:text-white'>
-				<h2>"O'zbekiston kelajagi - buyuk davlat"</h2>
+				<h2>{data?.title?.[lang]}</h2>
 			</div>
 
 			<div className='w-full'>
@@ -80,12 +89,12 @@ const EventsDetails = () => {
 					<div className='inline-flex items-center mt-3'>
 						<FaRegCalendarAlt className='text-2xl mr-2 dark:text-blue-600' />
 						<span className='text-xl dark:text-slate-200'>
-							Shanba, 19 Noyabr 2024
+							{dateToString(lang, data.date)}
 						</span>
 					</div>
 					<div className='inline-flex items-center mt-3'>
 						<FaRegClock className='text-2xl mr-2 dark:text-blue-600' />
-						<span className='text-xl dark:text-slate-200'>13:00 - 15:00</span>
+						<span className='text-xl dark:text-slate-200'>{data?.time}</span>
 					</div>
 				</div>
 				<div className='py-3 my-2'>

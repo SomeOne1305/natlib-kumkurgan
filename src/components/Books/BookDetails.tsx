@@ -1,23 +1,62 @@
-import { motion } from 'framer-motion'
-import { ReactNode, useEffect, useState } from 'react'
-import { IBook } from '../../types'
+import { useQuery } from '@tanstack/react-query'
+import { AnimatePresence, motion } from 'framer-motion'
+import { ReactNode, useState } from 'react'
+import { IoMdClose, IoMdDownload, IoMdEye } from 'react-icons/io'
+import { STORAGE_PATH } from '../../constants/storage'
+import BookViewer from '../../providers/BookViewer'
+import { BookService } from '../../services/books.service'
+import { useLangStore } from '../../store'
+
+const DownloadButton = ({
+	book_name,
+	source,
+}: {
+	book_name: string
+	source: string
+}) => {
+	const handleDownload = async () => {
+		try {
+			const response = await fetch(
+				`http://localhost:3000/static/books/${source}`
+			)
+			if (!response.ok) {
+				throw new Error('Network response was not ok')
+			}
+
+			const blob = await response.blob()
+			const url = window.URL.createObjectURL(blob)
+			const a = document.createElement('a')
+			a.href = url
+			a.download = book_name || 'default-filename.pdf' // Provide a default name if none exists
+			document.body.appendChild(a)
+			a.click()
+			a.remove()
+			window.URL.revokeObjectURL(url) // Clean up the URL object
+		} catch (error) {
+			console.error('Download failed:', error)
+		}
+	}
+
+	return (
+		<button
+			className='p-3 rounded-md bg-blue-600 text-white inline-flex items-center text-base'
+			onClick={handleDownload}
+			title='Download'
+		>
+			<IoMdDownload />
+		</button>
+	)
+}
 
 const BookDetails = ({ id, children }: { id: string; children: ReactNode }) => {
-	const [book, setBook] = useState<IBook>({} as IBook)
-	useEffect(() => {
-		const getData = async () => {
-			if (id) {
-				try {
-					await fetch(`https://www.googleapis.com/books/v1/volumes/${id}`)
-						.then(res => res.json())
-						.then(data => setBook(data))
-				} catch (error) {
-					console.log(error)
-				}
-			}
-		}
-		getData()
-	}, [id])
+	const [open, setOpen] = useState<boolean>(false)
+	const { data: book, isLoading } = useQuery({
+		queryKey: ['GET_BOOK_BY_ID', id],
+		queryFn: async () => await BookService.get_book_by_id(id),
+	})
+	const { lang } = useLangStore()
+	console.log(STORAGE_PATH + 'books/' + book?.source)
+
 	return (
 		<motion.div
 			className='w-full h-screen flex flex-col justify-end fixed left-0 z-10 bg-black bg-opacity-80'
@@ -25,89 +64,128 @@ const BookDetails = ({ id, children }: { id: string; children: ReactNode }) => {
 			animate={{ top: 0, opacity: 1 }}
 			exit={{ top: '150%', opacity: 0 }}
 		>
+			<AnimatePresence>
+				{open && !isLoading && book && (
+					<motion.div
+						className='w-full h-full fixed z-50 overflow-y-auto bg-black bg-opacity-80 backdrop-blur'
+						transition={{ duration: 0.5 }}
+						initial={{ top: '150%', opacity: 0 }}
+						animate={{ top: 0, opacity: 1 }}
+						exit={{ top: '150%', opacity: 0 }}
+					>
+						<div className='w-full relative'>
+							<div
+								className='absolute top-2 right-2 cursor-pointer'
+								onClick={() => setOpen(false)}
+							>
+								<IoMdClose className='text-3xl text-white' />
+							</div>
+							<BookViewer url={STORAGE_PATH + 'books/' + book.source} />
+						</div>
+					</motion.div>
+				)}
+			</AnimatePresence>
 			<div className='w-full py-1'>{children}</div>
 			<div className='w-full h-[90%] bg-white dark:bg-[#0F172A] rounded-t-xl overflow-y-auto'>
 				<div className='container'>
-					<div className='w-full py-3'>
-						<div className='w-full py-2 mt-2 grid grid-cols-1 sm:grid-cols-3 items-start'>
-							<div className='flex pt-5'>
-								<img
-									className='w-full h-full object-cover rounded-lg border border-gray-300'
-									src={book?.volumeInfo?.imageLinks?.extraLarge}
-									alt=''
-								/>
-							</div>
-							<div className='p-3 sm:col-span-2'>
-								<h2 className='text-2xl font-bold dark:text-slate-100'>
-									{book?.volumeInfo?.title}
-								</h2>
-								<p className='text-lg mt-4 dark:text-slate-200'>
-									{book?.volumeInfo?.description}
-								</p>
-							</div>
-						</div>
-						<table className='md:w-1/2 w-full dark:text-slate-100 text-gray-800 text-left'>
-							<caption className='text-left py-2 mt-2'>
-								<h2 className='dark:text-gray-300 font-medium text-xl mb-2'>
-									Ma'lumotlar:
-								</h2>
-							</caption>
-							<tbody>
-								<tr className='border-y border-gray-700'>
-									<th className='px-2 py-1'>Nashr turi: </th>
-									<td className='px-2 py-1'>{book?.volumeInfo?.printType}</td>
-								</tr>
-								<tr className='border-y border-gray-700'>
-									<th className='px-2 py-1'>Nashriyot:</th>
-									<td className='px-2 py-1'>{book?.volumeInfo?.publisher}</td>
-								</tr>
-								<tr className='border-y border-gray-700'>
-									<th className='px-2 py-1'>Muallifi:</th>
-									<td className='px-2 py-1'>
-										{book?.volumeInfo?.authors?.map(a => a).join(' , ')}
-									</td>
-								</tr>
-								<tr className='border-y border-gray-700'>
-									<th className='px-2 py-1'>ISBN:</th>
-									<td className='px-2 py-1'>
-										ISBN10{' '}
-										{book?.volumeInfo?.industryIdentifiers?.[0]?.identifier}{' '}
-										<br />
-										ISBN13{' '}
-										{book?.volumeInfo?.industryIdentifiers?.[1]?.identifier}
-									</td>
-								</tr>
-								<tr className='border-y border-gray-700'>
-									<th className='px-2 py-1'>Chop etilgan sana:</th>
-									<td className='px-2 py-1'>
-										{book?.volumeInfo?.publishedDate}
-									</td>
-								</tr>
-								<tr className='border-y border-gray-700'>
-									<th className='px-2 py-1'>Tili:</th>
-									<td className='px-2 py-1'>{book?.volumeInfo?.language}</td>
-								</tr>
-								<tr className='border-y border-gray-700'>
-									<th className='px-2 py-1'>Sahifalar soni:</th>
-									<td className='px-2 py-1'>{book?.volumeInfo?.pageCount}</td>
-								</tr>
-								<tr className='border-y border-gray-700'>
-									<th className='px-2 py-1'>Kategoriyalar:</th>
-									<td className='px-2 py-1'>
-										<div className='flex items-center flex-wrap'>
-											{book?.volumeInfo?.categories?.map((item, i) => (
-												<span
-													key={'category' + i}
-													className='text-xs p-1 rounded-lg bg-blue-700 text-white m-1'
+					<div className='w-full'>
+						{isLoading ? (
+							<span>Loading</span>
+						) : (
+							book && (
+								<div className='w-full py-3'>
+									<div className='w-full py-2 mt-2 grid grid-cols-1 sm:grid-cols-3 items-start'>
+										<div className='flex pt-5 relative'>
+											<img
+												className='w-full h-full object-cover rounded-lg border border-gray-300'
+												src={STORAGE_PATH + '/cover/' + book?.cover_image}
+												alt=''
+											/>
+											<div className='absolute top-6 right-1'>
+												<button
+													className='px-3 py-2 rounded-md bg-green-600 text-white inline-flex items-center text-base mr-2'
+													onClick={() => setOpen(true)}
 												>
-													{item}
-												</span>
-											))}
+													<IoMdEye className='text-lg mr-2' /> Ko'rish
+												</button>
+												<DownloadButton
+													book_name={book.name?.[lang]}
+													source={book.source}
+												/>
+											</div>
 										</div>
-									</td>
-								</tr>
-							</tbody>
-						</table>
+										<div className='p-3 sm:col-span-2'>
+											<h2 className='text-2xl font-bold dark:text-slate-100'>
+												{book?.name?.[lang]}
+											</h2>
+											<p className='text-lg mt-4 dark:text-slate-200'>
+												{book?.description?.[lang]}
+											</p>
+										</div>
+									</div>
+									<table className='md:w-1/2 w-full dark:text-slate-100 text-gray-800 text-left'>
+										<caption className='text-left py-2 mt-2'>
+											<h2 className='dark:text-gray-300 font-medium text-xl mb-2'>
+												Ma'lumotlar:
+											</h2>
+										</caption>
+										<tbody>
+											<tr className='border-y border-gray-700'>
+												<th className='px-2 py-1'>Nashr turi: </th>
+												<td className='px-2 py-1'>
+													{book?.publication_type?.[lang]}
+												</td>
+											</tr>
+											<tr className='border-y border-gray-700'>
+												<th className='px-2 py-1'>Nashriyot:</th>
+												<td className='px-2 py-1'>{book?.publisher}</td>
+											</tr>
+											<tr className='border-y border-gray-700'>
+												<th className='px-2 py-1'>Muallifi:</th>
+												<td className='px-2 py-1'>
+													{book?.authors?.map(a => a.name?.[lang]).join(' , ')}
+												</td>
+											</tr>
+											<tr className='border-y border-gray-700'>
+												<th className='px-2 py-1'>ISBN:</th>
+												<td className='px-2 py-1'>ISBN13 {book?.isbn}</td>
+											</tr>
+											<tr className='border-y border-gray-700'>
+												<th className='px-2 py-1'>Chop etilgan sana:</th>
+												<td className='px-2 py-1'>
+													{new Date(
+														JSON.parse(book?.published_date ?? '')
+													).toLocaleDateString()}
+												</td>
+											</tr>
+											<tr className='border-y border-gray-700'>
+												<th className='px-2 py-1'>Tili:</th>
+												<td className='px-2 py-1'>{book?.language?.[lang]}</td>
+											</tr>
+											<tr className='border-y border-gray-700'>
+												<th className='px-2 py-1'>Sahifalar soni:</th>
+												<td className='px-2 py-1'>{book?.pages_number}</td>
+											</tr>
+											<tr className='border-y border-gray-700'>
+												<th className='px-2 py-1'>Janrlar:</th>
+												<td className='px-2 py-1'>
+													<div className='flex items-center flex-wrap'>
+														{book?.genres?.map(item => (
+															<span
+																key={'category' + item.id}
+																className='text-xs p-1 rounded-lg bg-blue-700 text-white m-1'
+															>
+																{item.name?.[lang]}
+															</span>
+														))}
+													</div>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							)
+						)}
 					</div>
 				</div>
 			</div>

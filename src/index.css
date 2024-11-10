@@ -7,6 +7,10 @@
 	scroll-behavior: smooth;
 }
 
+.rpv-core__viewer {
+	overflow-y: auto !important;
+}
+
 .loading {
 	background-color: var(--loading-grey);
 	background: linear-gradient(

@@ -4,5 +4,12 @@
 	"email": "Elektron pochta",
 	"siteMap": "Sayt xaritasi",
 	"poll": "Yangi sayt dizayni yoqdimi ?",
-	"contact": "Biz bilan bog'laning"
+	"contact": "Biz bilan bog'laning",
+	"footer": "Barcha huquqlar himoyalangan.",
+	"comment_title": "Izoh qoldiring !",
+	"comment_mes": "Izoh matni",
+	"comment_err_mes": "Izoh maydoni bo'sh bo'lmasin !",
+	"comment_name": "Ismingiz",
+	"comment_err_name": "Ism maydoni bo'sh bo'lmasin !",
+	"comment_sub": "Jo'natish"
 }

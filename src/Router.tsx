@@ -22,10 +22,11 @@ import {
 	Home,
 	Login,
 	MyBooksPage,
-	MyCommentsPage,
 	Register,
 } from './pages'
 
+import { getEventsBySlugLoader, getNewsBySlugLoader } from './loaders'
+import NewUser from './pages/NewUser'
 import {
 	Akm,
 	CatalogCenter,
@@ -37,6 +38,7 @@ import {
 	StudyHalls,
 	Takm,
 } from './static-pages'
+import useTitleStore from './store/useTitleStore'
 
 export const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -48,12 +50,12 @@ export const router = createBrowserRouter(
 					<Route path='' element={<Navigate to={'edit'} replace={true} />} />
 					<Route path='edit' element={<EditPage />} />
 					<Route path='favourites' element={<MyBooksPage />} />
-					<Route path='my-comments' element={<MyCommentsPage />} />
 				</Route>
 				<Route path='auth' element={<AuthLayout />}>
 					<Route path='' element={<Navigate to={'login'} replace={true} />} />
 					<Route path='login' element={<Login />} />
 					<Route path='register' element={<Register />} />
+					<Route path='new-user' element={<NewUser />} />
 				</Route>
 				<Route path='contact' element={<Section />}>
 					<Route
@@ -69,29 +71,60 @@ export const router = createBrowserRouter(
 					element={<Section />}
 					handle={{
 						crumb: () => (
-							<Link to={''} className='text-xl mx-2'>
+							<Link
+								to={''}
+								className='text-xl mx-2'
+								onClick={() => useTitleStore.getState().setTitle(null)}
+							>
 								Yangiliklar
 							</Link>
 						),
 					}}
+					errorElement={<span>News not found</span>}
 				>
 					<Route path='' element={<NewsSection />} />
 					<Route
 						path=':slug'
-						loader={({ params, context }) => {
-							console.log(params, context)
-
-							return ''
-						}}
+						loader={getNewsBySlugLoader}
 						handle={{
-							crumb: () => <span className='text-xl mx-2'>Slug goes here</span>,
+							crumb: () => (
+								<span className='text-xl mx-2'>
+									{useTitleStore.getState().title}
+								</span>
+							),
 						}}
 						element={<NewsDetails />}
 					/>
 				</Route>
-				<Route path='events' element={<Section />}>
+				<Route
+					path='events'
+					element={<Section />}
+					handle={{
+						crumb: () => (
+							<Link
+								to={''}
+								className='text-xl mx-2'
+								onClick={() => useTitleStore.getState().setTitle(null)}
+							>
+								Tadbirlar
+							</Link>
+						),
+					}}
+				>
 					<Route path='' element={<EventsSection />} />
-					<Route path=':slug' element={<EventsDetails />} />
+					<Route
+						path=':slug'
+						element={<EventsDetails />}
+						loader={getEventsBySlugLoader}
+						handle={{
+							crumb: () => (
+								<span className='text-xl mx-2'>
+									{useTitleStore.getState().title}
+								</span>
+							),
+						}}
+						errorElement={<span>No data</span>}
+					/>
 				</Route>
 				<Route path='faqs' element={<Section />}>
 					<Route path='' element={<Faq />} />
@@ -149,11 +182,7 @@ export const router = createBrowserRouter(
 						path='management'
 						element={<Management />}
 						handle={{
-							crumb: () => (
-								<span className='text-xl mx-2'>
-									{'> '}Kutubxona haqida {'> '} Rahbariyat
-								</span>
-							),
+							crumb: () => <span className='text-xl mx-2'>Rahbariyat</span>,
 						}}
 					/>
 					<Route
@@ -205,5 +234,10 @@ export const router = createBrowserRouter(
 				</Route>
 			</Route>
 		</Route>
-	)
+	),
+	{
+		future: {
+			v7_relativeSplatPath: true,
+		},
+	}
 )

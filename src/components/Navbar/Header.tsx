@@ -5,11 +5,13 @@ import { IoMenu } from 'react-icons/io5'
 import { PiCaretDown } from 'react-icons/pi'
 import { Link } from 'react-router-dom'
 import { navbar } from '../../constants/navbar'
+import { useLangStore } from '../../store'
 import MobileBar from './MobileBar'
 
 const Header = () => {
 	const [isHover, setIsHover] = useState<number>(0)
 	const [open, setOpen] = useState<boolean>(false)
+	const { lang } = useLangStore()
 	return (
 		<div className='w-full'>
 			<div className='container'>
@@ -69,7 +71,7 @@ const Header = () => {
 								onMouseLeave={() => setIsHover(0)}
 							>
 								<span className='text-base inline-flex text-gray-600 cursor-pointer px-2 py-3 hover:text-blue-800 dark:hover:text-blue-700 dark:text-slate-300'>
-									{item.title}{' '}
+									{item.title?.[lang as keyof typeof item.title]}{' '}
 									{item.children && (
 										<PiCaretDown className='text-lg ml-2 mt-0.5 rotate-0 group-hover:-rotate-180 transition-transform duration-200' />
 									)}
@@ -87,7 +89,9 @@ const Header = () => {
 												<li
 													key={'Child ' + z}
 													className={`w-full py-2 px-3 text-base ${
-														i.title?.split(' ')?.length <= 3
+														i.title?.[lang as keyof typeof item.title]?.split(
+															' '
+														)?.length <= 3
 															? 'whitespace-nowrap'
 															: ''
 													} hover:bg-gray-100 dark:hover:bg-[#252836] hover:text-blue-800 dark:hover:text-blue-700 dark:text-slate-300 list-none`}
@@ -96,7 +100,7 @@ const Header = () => {
 														to={i.link ? i.link : '/'}
 														className='flex relative'
 													>
-														{i.title}
+														{i.title?.[lang as keyof typeof item.title]}
 													</Link>
 												</li>
 											))}
@@ -111,7 +115,7 @@ const Header = () => {
 								key={'nav ' + item.id}
 							>
 								<span className='text-base inline-flex text-gray-600 cursor-pointer px-2 py-3 hover:text-blue-800 dark:hover:text-blue-700 dark:text-slate-300'>
-									{item.title}{' '}
+									{item.title[lang as keyof typeof item.title]}{' '}
 									{item.children && (
 										<PiCaretDown className='text-lg ml-2 mt-0.5 rotate-0 group-hover:-rotate-180 transition-transform duration-200' />
 									)}

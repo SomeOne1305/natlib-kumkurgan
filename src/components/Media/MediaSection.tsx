@@ -1,8 +1,13 @@
-import { FaPlay } from 'react-icons/fa'
-import { IoImageOutline } from 'react-icons/io5'
+import { useQuery } from '@tanstack/react-query'
+import { MediaService } from '../../services/media.service'
 import Fancybox from './FancyBox'
+import MediaCard from './MediaCard'
 
 const MediaSection = () => {
+	const { data, isLoading } = useQuery({
+		queryKey: ['GET_ALL_MEDIA'],
+		queryFn: async () => await MediaService.get_all_media(),
+	})
 	return (
 		<div className='w-full'>
 			<div className='w-full py-3 my-4 border-b border-gray-800 dark:border-gray-400'>
@@ -17,67 +22,13 @@ const MediaSection = () => {
 					},
 				}}
 			>
-				<div className='w-full grid grid-cols-4 gap-3'>
-					<a
-						data-fancybox='gallery'
-						href='https://lipsum.app/id/60/1600x1200'
-						className='flex flex-col group mt-4'
-					>
-						<div className='relative w-full rounded-lg overflow-hidden'>
-							<img
-								src='https://lipsum.app/id/60/200x150'
-								className='w-full h-full object-cover'
-							/>
-							<div className='absolute top-0 left-0 w-full h-full flex items-center justify-center bg-[#1e305198] opacity-0 group-hover:opacity-100 transition-opacity duration-200'>
-								<div className='pt-4 pl-5 pr-4 pb-4 bg-[#142440] rounded-full z-10'>
-									<IoImageOutline className='text-3xl text-white' />
-								</div>
-							</div>
-						</div>
-						<h3 className='text-lg font-bold dark:text-slate-100 px-1 py-3'>
-							Today is your day
-						</h3>
-					</a>
-					<a
-						data-fancybox='gallery'
-						href='https://videos.pexels.com/video-files/20184664/20184664-hd_1920_1080_30fps.mp4'
-						className='flex flex-col group mt-4'
-					>
-						<div className='relative w-full rounded-lg overflow-hidden'>
-							<img
-								src='https://lipsum.app/id/88/200x150'
-								className='w-full h-full object-cover'
-							/>
-							<div className='absolute top-0 left-0 w-full h-full flex items-center justify-center bg-[#1e305198] opacity-0 group-hover:opacity-100 transition-opacity duration-200'>
-								<div className='pt-4 pl-5 pr-4 pb-4 bg-[#142440] rounded-full z-10'>
-									<FaPlay className='text-3xl text-white' />
-								</div>
-							</div>
-						</div>
-						<h3 className='text-lg font-bold dark:text-slate-100 px-1 py-3'>
-							Today is your day
-						</h3>
-					</a>
-					<a
-						data-fancybox='gallery'
-						href='https://www.youtube.com/watch?v=H-ur2ZeSLOc'
-						className='flex flex-col group mt-4'
-					>
-						<div className='relative w-full rounded-lg overflow-hidden'>
-							<img
-								src='https://lipsum.app/id/25/200x150'
-								className='w-full h-full object-cover'
-							/>
-							<div className='absolute top-0 left-0 w-full h-full flex items-center justify-center bg-[#1e305198] opacity-0 group-hover:opacity-100 transition-opacity duration-200'>
-								<div className='pt-4 pl-5 pr-4 pb-4 bg-[#142440] rounded-full z-10'>
-									<FaPlay className='text-3xl text-white' />
-								</div>
-							</div>
-						</div>
-						<h3 className='text-lg font-bold dark:text-slate-100 px-1 py-3'>
-							Today is your day
-						</h3>
-					</a>
+				<div className='w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3'>
+					{isLoading ? (
+						<span>Loading...</span>
+					) : (
+						data &&
+						data.map(media => <MediaCard media={media} key={media.id} />)
+					)}
 				</div>
 			</Fancybox>
 		</div>

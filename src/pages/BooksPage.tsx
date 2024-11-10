@@ -1,6 +1,4 @@
 import 'swiper/css/scrollbar'
-import { Navigation } from 'swiper/modules'
-import { Swiper, SwiperSlide } from 'swiper/react'
 import videoSrc from '../assets/background.mp4'
 import Books from '../components/Books/Books'
 import { Span } from '../components/ui'
@@ -37,9 +35,9 @@ const BooksPage = () => {
 									>
 										<path
 											stroke='currentColor'
-											stroke-linecap='round'
-											stroke-linejoin='round'
-											stroke-width='2'
+											strokeLinecap='round'
+											strokeLinejoin='round'
+											strokeWidth='2'
 											d='m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z'
 										/>
 									</svg>
@@ -65,48 +63,10 @@ const BooksPage = () => {
 			<div className='w-full'>
 				<div className='container'>
 					<div className='w-full py-3 mx-5'>
-						<Swiper
-							spaceBetween={10}
-							slidesPerView={'auto'}
-							slidesPerGroup={9}
-							navigation={true}
-							modules={[Navigation]}
-						>
-							{[
-								'Biography',
-								'Business',
-								'Chick Lit',
-								"Children's",
-								'Christian',
-								'Classics',
-								'Comics',
-								'Contemporary',
-								'Cookbooks',
-								'Crime',
-								'Ebooks',
-								'Fantasy',
-								'Fiction',
-								'Gay and Lesbian',
-								'Graphic Novels',
-								'Historical Fiction',
-								'History',
-								'Horror',
-								'Humor and Comedy',
-							].map((item, i) => (
-								<SwiperSlide className='py-5 my-2'>
-									<Span
-										onBase=''
-										onLarge=''
-										className='px-4 py-2 rounded-3xl text-nowrap bg-blue-300 text-blue-700 mx-2 first:ml-0 select-none'
-										key={'genre_' + i}
-									>
-										{item}
-									</Span>
-								</SwiperSlide>
-							))}
-						</Swiper>
 						<div className='w-full py-3 mb-5'>
-							<h2 className='text-3xl font-bold'>Kitoblar</h2>
+							<h2 className='text-3xl font-bold dark:text-slate-100'>
+								Kitoblar
+							</h2>
 						</div>
 						<div className='w-full flex items-center overflow-x-auto scroll-hide'>
 							{[
@@ -129,12 +89,12 @@ const BooksPage = () => {
 								'History',
 								'Horror',
 								'Humor and Comedy',
-							].map((item, i) => (
+							].map(item => (
 								<Span
 									onBase=''
 									onLarge=''
 									className='px-4 py-2 rounded-3xl text-nowrap bg-blue-200 text-blue-700 mx-2 first:ml-0 select-none first:bg-blue-500 first:text-white'
-									key={'genre_' + i}
+									key={'genre_' + item}
 								>
 									{item}
 								</Span>

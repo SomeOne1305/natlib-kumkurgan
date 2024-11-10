@@ -1,10 +1,15 @@
+import { useQuery } from '@tanstack/react-query'
 import BooksSection from '../components/Books/BooksSection'
 import NewsCard from '../components/News/NewsCard'
 import TopNews from '../components/News/TopNews'
 import UsefulLInks from '../components/UsefulLInks'
-import VotingPoll from '../components/VotingPoll'
+import { NewsService } from '../services/news.service'
 
 const Home = () => {
+	const { data, isLoading } = useQuery({
+		queryKey: ['GET_RECOMMENDED_NEWS'],
+		queryFn: async () => await NewsService.get_recommend_news(),
+	})
 	return (
 		<>
 			<div className='container'>
@@ -17,15 +22,17 @@ const Home = () => {
 						</h2>
 					</div>
 					<div className='w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 py-2 my-3'>
-						{Array(5)
-							.fill('a')
-							.map((_, i) => (
-								<NewsCard key={'card' + i} />
-							))}
+						{isLoading ? (
+							<span>Loading...</span>
+						) : (
+							data &&
+							data.map(news => (
+								<NewsCard data={news} key={'recommeded_news_' + news.id} />
+							))
+						)}
 					</div>
 				</div>
 				<UsefulLInks />
-				<VotingPoll />
 			</div>
 			{/* <Banner /> */}
 		</>

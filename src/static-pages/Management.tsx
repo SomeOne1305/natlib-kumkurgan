@@ -4,7 +4,7 @@ import { Paragraph, Span } from '../components/ui'
 const Management = () => {
 	return (
 		<div className='w-full'>
-			<div className='w-full p-5 '>
+			<div className='w-full p-5'>
 				<div className='flex items-center'>
 					<div className='rounded-md p-1 border border-gray-300 dark:border-gray-600'>
 						<img src={director} className='w-auto h-auto object-cover' alt='' />
@@ -13,36 +13,56 @@ const Management = () => {
 						<tbody className='py-2'>
 							<tr className='text-left p-2'>
 								<th className='px-2 py-1'>
-									<Span onBase='text-xl' onLarge='text-2xl'>
+									<Span
+										className='dark:text-slate-100'
+										onBase='text-xl'
+										onLarge='text-2xl'
+									>
 										F.I.SH:
 									</Span>
 								</th>
 								<td className='px-2 py-1 pl-6'>
-									<Span onBase='text-xl' onLarge='text-2xl'>
+									<Span
+										className='dark:text-slate-300'
+										onBase='text-xl'
+										onLarge='text-2xl'
+									>
 										Raxmonqulov Habibullo
 									</Span>
 								</td>
 							</tr>
 							<tr className='text-left p-2'>
 								<th className='px-2 py-1'>
-									<Span onBase='text-xl' onLarge='text-2xl'>
+									<Span
+										className='dark:text-slate-100'
+										onBase='text-xl'
+										onLarge='text-2xl'
+									>
 										Lavozim:
 									</Span>
 								</th>
 								<td className='px-2 py-1 pl-6'>
-									<Span onBase='text-xl' onLarge='text-2xl'>
+									<Span
+										className='dark:text-slate-300'
+										onBase='text-xl'
+										onLarge='text-2xl'
+									>
 										Qumqo'rg'on tuman Axborot-kutubxona markazi direktori
 									</Span>
 								</td>
 							</tr>
 							<tr className='text-left p-2'>
 								<th className='px-2 py-1'>
-									<Span onBase='text-xl' onLarge='text-2xl'>
+									<Span
+										className='dark:text-slate-100'
+										onBase='text-xl'
+										onLarge='text-2xl'
+									>
 										Telefon raqami:
 									</Span>
 								</th>
 								<td className='px-2 py-1 pl-6'>
-									<a href='#' className='text-blue-500'>
+									<a href='tel:998910784007' className='text-blue-500'>
 										<Span onBase='text-xl' onLarge='text-2xl'>
 											+998 91 078 4007
 										</Span>
@@ -51,24 +71,40 @@ const Management = () => {
 							</tr>
 							<tr className='text-left p-2'>
 								<th className='px-2 py-1'>
-									<Span onBase='text-xl' onLarge='text-2xl'>
+									<Span
+										className='dark:text-slate-100'
+										onBase='text-xl'
+										onLarge='text-2xl'
+									>
 										E-pochta manzili:
 									</Span>
 								</th>
 								<td className='px-2 py-1 pl-6'>
-									<Span onBase='text-xl' onLarge='text-2xl'>
+									<Span
+										className='dark:text-slate-300'
+										onBase='text-xl'
+										onLarge='text-2xl'
+									>
 										axmadxolmuminov2007@gmail.com
 									</Span>
 								</td>
 							</tr>
 							<tr className='text-left p-2'>
 								<th className='px-2 py-1'>
-									<Span onBase='text-xl' onLarge='text-2xl'>
+									<Span
+										className='dark:text-slate-100'
+										onBase='text-xl'
+										onLarge='text-2xl'
+									>
 										Qabul kunlari:
 									</Span>
 								</th>
 								<td className='px-2 py-1 pl-6'>
-									<Span onBase='text-xl' onLarge='text-2xl'>
+									<Span
+										className='dark:text-slate-300'
+										onBase='text-xl'
+										onLarge='text-2xl'
+									>
 										Haftanining shanba kunlari 16:00 dan 17:00 gacha
 									</Span>
 								</td>
@@ -77,20 +113,24 @@ const Management = () => {
 					</table>
 				</div>
 				<div className='w-full p-3'>
-					<h2 className='text-xl font-bold my-3'>Tarjimayi hol:</h2>
+					<h2 className='text-xl font-bold my-3 dark:text-slate-100'>
+						Tarjimayi hol:
+					</h2>
 					<Paragraph
-						className='text-lg indent-6'
+						className='text-lg indent-6 dark:text-slate-300'
 						onBase='text-xl'
 						onLarge='text-2xl'
 					>
-						<b>Rahmonqulov Habibullo Ziyodullaevich</b> - 1951-yil 26-aprel'
-						Surxondaryo viloyati Sho‘rchi tumanida tug‘ilgan. Millati tojik,
-						partiyasiz, ma'lumoti oliy, 1971-yilda Toshkent Davlat Nizomiy
-						nomidagi Pedagogika Institutining Kutubxonashunoslik bo‘limini
-						tugatgan.
+						<b className='dark:text-slate-100'>
+							Rahmonqulov Habibullo Ziyodullaevich
+						</b>{' '}
+						- 1951-yil 26-aprel' Surxondaryo viloyati Sho‘rchi tumanida
+						tug‘ilgan. Millati tojik, partiyasiz, ma'lumoti oliy, 1971-yilda
+						Toshkent Davlat Nizomiy nomidagi Pedagogika Institutining
+						Kutubxonashunoslik bo‘limini tugatgan.
 					</Paragraph>
 					<Paragraph
-						className='text-lg indent-6'
+						className='text-lg indent-6 dark:text-slate-300'
 						onBase='text-xl'
 						onLarge='text-2xl'
 					>
@@ -108,7 +148,7 @@ const Management = () => {
 						markazlashtirdi.
 					</Paragraph>
 					<Paragraph
-						className='text-lg indent-6'
+						className='text-lg indent-6 dark:text-slate-300'
 						onBase='text-xl'
 						onLarge='text-2xl'
 					>
@@ -138,7 +178,7 @@ const Management = () => {
 						kutubxonalar tizimi direktori vazifasida ishladi.
 					</Paragraph>
 					<Paragraph
-						className='text-lg indent-6'
+						className='text-lg indent-6 dark:text-slate-300'
 						onBase='text-xl'
 						onLarge='text-2xl'
 					>
@@ -201,7 +241,7 @@ const Management = () => {
 						tashakkurnomalari bilan taqdirlangan.
 					</Paragraph>
 					<Paragraph
-						className='text-lg indent-6'
+						className='text-lg indent-6 dark:text-slate-300'
 						onBase='text-xl'
 						onLarge='text-2xl'
 					>

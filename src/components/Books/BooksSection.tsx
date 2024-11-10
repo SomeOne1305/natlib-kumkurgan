@@ -1,9 +1,10 @@
+import { useQuery } from '@tanstack/react-query'
 import { AnimatePresence } from 'framer-motion'
 import { useEffect, useState } from 'react'
-import { FaChevronLeft, FaChevronRight, FaPlus } from 'react-icons/fa'
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 import { IoCloseSharp } from 'react-icons/io5'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { books } from '../../constants/books'
+import { BookService } from '../../services/books.service'
 import { SwiperType } from '../../types'
 import BookCard from './BookCard'
 import BookDetails from './BookDetails'
@@ -19,6 +20,11 @@ const BooksSection = () => {
 			document.body.style.overflowY = 'unset'
 		}
 	}, [id])
+	const { data, isLoading } = useQuery({
+		queryKey: ['GET_RECOMMEND_BOOKS'],
+		queryFn: async () => await BookService.get_recommended_books(),
+	})
+	console.log(data)
 
 	return (
 		<div className='w-full py-4'>
@@ -54,7 +60,7 @@ const BooksSection = () => {
 					</button>
 				</div>
 			</div>
-			{books.length > 0 ? (
+			{!isLoading && data ? (
 				<Swiper
 					slidesPerView={1}
 					spaceBetween={15}
@@ -74,16 +80,11 @@ const BooksSection = () => {
 					}}
 					onSwiper={swiper => setSwipe(swiper)}
 				>
-					{books.map((i, x) => (
-						<SwiperSlide key={i.id}>
-							<BookCard i={i} x={x} setId={setId} />
+					{data.map((b, x) => (
+						<SwiperSlide key={b.id}>
+							<BookCard book={b} x={x} setId={setId} />
 						</SwiperSlide>
 					))}
-					<SwiperSlide className='h-full'>
-						<div className='w-full min-h-[500px] border border-gray-300 dark:border-gray-600 rounded-md flex items-center justify-center'>
-							<FaPlus />
-						</div>
-					</SwiperSlide>
 				</Swiper>
 			) : (
 				<div className='text-center text-gray-500 dark:text-gray-400'>

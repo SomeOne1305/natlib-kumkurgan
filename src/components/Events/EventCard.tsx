@@ -1,43 +1,51 @@
 import { FaEye, FaRegCalendarAlt, FaRegClock } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
+import { STORAGE_PATH } from '../../constants/storage'
+import { useLangStore } from '../../store'
+import { IEventType } from '../../types/event.type'
+import { dateToString } from '../../utils/date-to-string'
 
-const EventCard = () => {
+const EventCard = ({ data }: { data: IEventType }) => {
+	const { lang } = useLangStore()
+
 	return (
 		<div className='flex items-center'>
 			<div className='w-1/2 h-full'>
-				<Link to={'some-route-there'}>
+				<Link to={'/events/' + data?.slug}>
 					<img
-						src='https://media.istockphoto.com/id/499517325/photo/a-man-speaking-at-a-business-conference.jpg?s=612x612&w=0&k=20&c=gWTTDs_Hl6AEGOunoQ2LsjrcTJkknf9G8BGqsywyEtE='
+						src={STORAGE_PATH + 'events/' + data?.source}
 						className='w-full object-cover rounded-lg'
-						alt=''
+						alt={data?.title?.[lang]}
 					/>
 				</Link>
 			</div>
 			<div className='w-1/2 h-full flex flex-col items-start justify-center p-1.5'>
 				<div className='pb-1'>
 					<h2 className='font-semibold text-lg line-clamp-2 dark:text-slate-100'>
-						"O'zbekiston kalajagi - buyuk davlat"
+						{data?.title?.[lang]}
 					</h2>
 				</div>
 				<div className='py-1 inline-flex items-start flex-col'>
 					<div className='inline-flex items-center'>
 						<FaRegCalendarAlt className='text-lg mr-1 text-blue-500' />
 						<span className='text-base whitespace-nowrap dark:text-slate-300'>
-							Noyabr 19-20
+							{dateToString(lang, data.date)}
 						</span>
 					</div>
 					<div className='inline-flex items-center'>
 						<FaRegClock className='text-lg mr-1  text-blue-500' />
 						<span className='text-base whitespace-nowrap dark:text-slate-300'>
-							13:00 - 15:00
+							{data?.time}
 						</span>
 					</div>
 				</div>
 				<div className='py-1  w-full flex items-center justify-between pr-1'>
-					<span className='text-sm text-gray-500'>19.11.2021</span>
+					<span className='text-sm text-gray-500'>
+						{new Date(data?.createdAt).toLocaleDateString()}
+					</span>
 					<div className='inline-flex items-center'>
 						<FaEye className='text-base text-blue-500 mr-1' />
-						<span className='text-sm text-gray-500'>190</span>
+						<span className='text-sm text-gray-500'>{data?.views}</span>
 					</div>
 				</div>
 			</div>

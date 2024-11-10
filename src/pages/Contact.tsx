@@ -1,3 +1,5 @@
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
 import { BsTelephone } from 'react-icons/bs'
 import { CiCalendar } from 'react-icons/ci'
 import { FaRegMap } from 'react-icons/fa'
@@ -7,8 +9,25 @@ import { SlPrinter } from 'react-icons/sl'
 import { FormattedMessage } from 'react-intl'
 import LocationAdd from '../components/LocationAdd'
 import { Button, Input, Span } from '../components/ui'
+import { ContactFormData, ContactScheme } from '../schemes/contact.scheme'
+import { useLangStore } from '../store'
 
 const Contact = () => {
+	const { lang } = useLangStore()
+
+	const {
+		handleSubmit,
+		register,
+		formState: { errors },
+	} = useForm<ContactFormData>({
+		resolver: zodResolver(ContactScheme),
+	})
+	const onSubmit = (data: ContactFormData) => {
+		console.log(data)
+	}
+	if (errors) {
+		console.log(errors)
+	}
 	return (
 		<div className='w-full'>
 			<div className='w-full flex justify-around'>
@@ -21,8 +40,7 @@ const Contact = () => {
 							<h3 className='text-lg font-bold dark:text-slate-100'>Manzil</h3>
 							<p className='text-base text-gray-600 dark:text-slate-100'>
 								<Span onBase='text-lg' onLarge='text-xl'>
-									Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-									Ipsum commodi aspernatur eligendi voluptatibus ratione!
+									Surxondaryo viloyati Qumqo'rg'on tumani
 								</Span>
 							</p>
 						</div>
@@ -33,7 +51,11 @@ const Contact = () => {
 						</div>
 						<div className='w-4/5 gap-2 ml-4'>
 							<h3 className='text-lg font-bold dark:text-slate-100'>
-								Ishonch telefon raqami
+								{lang === 'uz'
+									? 'Ishonch telefon raqami'
+									: lang === 'ru'
+									? 'Номер телефона доверия'
+									: 'Trust Phone Number'}
 							</h3>
 							<p className='text-base'>
 								<a
@@ -64,7 +86,11 @@ const Contact = () => {
 						</div>
 						<div className='w-4/5 gap-2 ml-4'>
 							<h3 className='text-lg font-bold dark:text-slate-100'>
-								Elektron pochta manzili
+								{lang === 'uz'
+									? 'Elektron pochta manzili'
+									: lang === 'ru'
+									? 'Адрес электронной почты'
+									: 'Email Address'}
 							</h3>
 							<p className='text-base'>
 								<a
@@ -84,7 +110,9 @@ const Contact = () => {
 							<SlPrinter className='text-blue-900 text-xl m-1' />
 						</div>
 						<div className='w-4/5 gap-2 ml-4'>
-							<h3 className='text-lg font-bold dark:text-slate-100'>Faks</h3>
+							<h3 className='text-lg font-bold dark:text-slate-100'>
+								{lang === 'uz' ? 'Faks' : lang === 'ru' ? 'Факс' : 'Fax'}
+							</h3>
 							<p className='text-base'>
 								<a
 									href='#'
@@ -104,11 +132,19 @@ const Contact = () => {
 						</div>
 						<div className='w-4/5 gap-2 ml-4'>
 							<h3 className='text-lg font-bold dark:text-slate-100'>
-								Ish vaqti
+								{lang === 'uz'
+									? 'Ish vaqti'
+									: lang === 'ru'
+									? 'Время работы'
+									: 'Working Hours'}
 							</h3>
 							<p className='text-base text-gray-600 dark:text-slate-100'>
 								<Span onBase='text-lg' onLarge='text-xl'>
-									Dushanba-juma 09:00-18:00
+									{lang === 'uz'
+										? 'Dushanba-juma 09:00-18:00'
+										: lang === 'ru'
+										? 'Понедельник-пятница 09:00-18:00'
+										: 'Monday-Friday 09:00-18:00'}
 								</Span>
 							</p>
 						</div>
@@ -119,16 +155,50 @@ const Contact = () => {
 						<FormattedMessage id='contact' />
 					</h2>
 					<p className='mb-8 lg:mb-16 font-light text-center text-gray-500 dark:text-gray-400 sm:text-xl'>
-						Got a technical issue? Want to send feedback about a beta feature?
-						Need details about our Business plan? Let us know.
+						{lang === 'uz'
+							? 'Texnik muammo bormi? Beta funksiyasi haqida fikr bildirmoqchimisiz? Biznes rejamiz haqida maʼlumot kerakmi? Bizga xabar bering.'
+							: lang === 'ru'
+							? 'У вас есть техническая проблема? Хотите оставить отзыв о бета-функции? Нужны подробности о нашем бизнес-плане? Дайте нам знать.'
+							: 'Got a technical issue? Want to send feedback about a beta feature? Need details about our Business plan? Let us know.'}
 					</p>
-					<form action='#' className='space-y-8'>
+					<form
+						onSubmit={handleSubmit(onSubmit)}
+						id='contact_form'
+						className='space-y-8'
+					>
 						<div className='flex items-center gap-2'>
-							<Input id='name' label='Your name' placeholder='name' required />
+							<Input
+								id='name'
+								{...register('name')}
+								label={
+									lang === 'uz'
+										? 'Ismingiz'
+										: lang === 'ru'
+										? 'Ваше имя'
+										: 'Your name'
+								}
+								placeholder={
+									lang === 'uz' ? 'ismingiz' : lang === 'ru' ? 'имя' : 'name'
+								}
+								required
+							/>
 							<Input
 								id='surname'
-								label='Your surname'
-								placeholder='surname'
+								{...register('surname')}
+								label={
+									lang === 'uz'
+										? 'Familiya'
+										: lang === 'ru'
+										? 'Фамилия'
+										: 'Your surname'
+								}
+								placeholder={
+									lang === 'uz'
+										? 'familiya'
+										: lang === 'ru'
+										? 'фамилия'
+										: 'surname'
+								}
 								required
 							/>
 						</div>
@@ -138,22 +208,41 @@ const Contact = () => {
 									htmlFor='subject'
 									className='block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300'
 								>
-									Subject
+									{lang === 'uz' ? 'Mavzu' : lang === 'ru' ? 'Тема' : 'Subject'}
 								</label>
 								<select
 									id='subject'
 									className='block p-3 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 shadow-sm focus:ring-blue-100 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-100 dark:focus:border-blue-500 dark:shadow-sm dark:shadow-gray-200 focus:ring outline-none'
-									required
+									{...register('subject')}
 								>
-									<option value='ask-question'>To ask personal question</option>
-									<option value='collabration'>Collabration</option>
-									<option value='other'>Other</option>
+									<option value='ask-question'>
+										{lang === 'uz'
+											? 'Shaxsiy savol berish'
+											: lang === 'ru'
+											? 'Задать личный вопрос'
+											: 'To ask personal question'}
+									</option>
+									<option value='collaboration'>
+										{lang === 'uz'
+											? 'Hamkorlik'
+											: lang === 'ru'
+											? 'Сотрудничество'
+											: 'Collaboration'}
+									</option>
+									<option value='other'>
+										{lang === 'uz'
+											? 'Boshqa'
+											: lang === 'ru'
+											? 'Другое'
+											: 'Other'}
+									</option>
 								</select>
 							</div>
 							<Input
 								id='phone-number'
 								label='Phone number'
 								placeholder='+998 (XX) XXX-XX-XX'
+								{...register('phone_number')}
 								required
 							/>
 						</div>
@@ -163,17 +252,28 @@ const Contact = () => {
 								htmlFor='message'
 								className='block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400'
 							>
-								Your message
+								{lang === 'uz'
+									? 'Sizning xabaringiz'
+									: lang === 'ru'
+									? 'Ваше сообщение'
+									: 'Your message'}
 							</label>
 							<textarea
 								id='message'
 								rows={6}
+								{...register('message')}
 								className='block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg shadow-sm border border-gray-300 focus:ring-blue-100 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 focus:ring outline-none'
 								placeholder='Leave a comment...'
 								required
 							></textarea>
 						</div>
-						<Button type='submit'>Send message</Button>
+						<Button type='submit'>
+							{lang === 'uz'
+								? 'Xabar yuborish'
+								: lang === 'ru'
+								? 'Отправить сообщение'
+								: 'Send message'}
+						</Button>
 					</form>
 				</div>
 			</div>

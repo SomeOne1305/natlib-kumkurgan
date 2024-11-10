@@ -1,45 +1,37 @@
 import { FaEye, FaRegCalendarAlt } from 'react-icons/fa'
-import { GoCommentDiscussion } from 'react-icons/go'
 import { Link } from 'react-router-dom'
+import { STORAGE_PATH } from '../../constants/storage'
+import { useLangStore } from '../../store'
+import { NewsType } from '../../types/news.type'
+import { dateToString } from '../../utils/date-to-string'
 
-const NewsCard = () => {
-	const str =
-		'The Time Is Running Out! Think About These 6 Ways To Change Your Library'
-	const slug = str
-		.toString()
-		.trim()
-		.toLowerCase()
-		.replace(/\s+/g, '-')
-		.replace(/[^\w-]+/g, '')
-		.replace(/--+/g, '-')
-		.replace(/^-+/, '')
-		.replace(/-+$/, '')
+const NewsCard = ({ data }: { data: NewsType }) => {
+	const { lang } = useLangStore()
 	return (
 		<div className='flex flex-col items-center '>
-			<Link to={'news/' + slug} className='flex flex-col group'>
+			<Link to={'/news/' + data?.slug} className='flex flex-col group'>
 				<img
-					src='https://bookland.dexignzone.com/xhtml/images/blog/large/blog2.jpg'
+					src={STORAGE_PATH + 'news/' + data?.image}
 					className='w-full h-52 rounded-md object-cover'
-					alt='News thumbnail'
+					alt={data?.title?.[lang]}
 				/>
 				<div className='py-1'>
 					<div className='w-ful mt-2 py-4 flex items-center justify-between'>
 						<div className='inline-flex items-center'>
 							<FaRegCalendarAlt className='text-lg text-blue-600 mr-1' />
-							<span className='text-sm text-gray-500'>27 Aprel, 2024</span>
+							<span className='text-sm text-gray-500'>
+								{dateToString(lang, data?.createdAt)}
+							</span>
 						</div>
 						<div className='inline-flex items-center'>
-							<GoCommentDiscussion className='text-lg text-blue-600 mr-1' />
-							<span className='mr-4 text-sm text-gray-500'>19</span>
-
 							<FaEye className='text-lg text-blue-600 mr-1' />
-							<span className='text-sm text-gray-500'>52</span>
+							<span className='text-sm text-gray-500'>{data.views}</span>
 						</div>
 					</div>
 				</div>
 				<div className='p-1'>
 					<h2 className='text-lg font-bold group-hover:text-blue-900 line-clamp-3 dark:text-slate-100'>
-						The library is inhabited by spirits that come out of the pages.
+						{data.title?.[lang]}
 					</h2>
 				</div>
 			</Link>

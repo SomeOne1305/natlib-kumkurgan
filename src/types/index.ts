@@ -1,7 +1,11 @@
 import Swiper from 'swiper'
 
 export class SwiperType extends Swiper {}
-
+export type LangType = {
+	uz: string
+	ru: string
+	eng: string
+}
 export interface IBook {
 	id: string
 	selfLink: string
@@ -94,4 +98,29 @@ export interface IBook {
 export interface IText {
 	onBase: string
 	onLarge: string
+}
+
+export interface ILogin {
+	code: string
+}
+
+export interface ILoginResponse {
+	token: string
+}
+
+export interface IProfile {
+	first_name: string
+	last_name: string
+	phone_number: string
+	passport_number: string
+	token: string
+}
+
+export interface IUser {
+	id: string
+	first_name: string
+	last_name: string
+	phone_number: string
+	createdAt: string
+	updatedAt: string
 }

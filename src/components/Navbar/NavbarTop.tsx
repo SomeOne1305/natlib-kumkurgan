@@ -1,18 +1,16 @@
-import {
-	FaEnvelope,
-	FaFacebook,
-	FaTelegram,
-	FaUser,
-	FaYoutube,
-} from 'react-icons/fa'
+import { FaEnvelope, FaFacebook, FaTelegram, FaYoutube } from 'react-icons/fa'
 import { IoLogInOutline } from 'react-icons/io5'
 import { FormattedMessage } from 'react-intl'
 import { Link } from 'react-router-dom'
+import useAuthStore from '../../store/useAuthStore'
+import Dropdown from './Dropdown'
 import LangSwitch from './LangSwitch'
 import ThemeSwitch from './ThemeSwitch'
 import ViewSwitch from './ViewSwitch'
 
 const NavbarTop = () => {
+	const { isAuthAvailable } = useAuthStore()
+
 	return (
 		<div className='w-full bg-[#264DB1] dark:bg-[#4945FF]'>
 			{/* <MobileBar /> */}
@@ -35,30 +33,22 @@ const NavbarTop = () => {
 						</span>
 					</div>
 					<div className='inline-flex items-center gap-4'>
-						<a href='#' className='text-white text-sm max-lg:hidden'>
-							<FormattedMessage id='siteMap' />
-						</a>
 						<ThemeSwitch />
 						<LangSwitch />
 						<ViewSwitch />
-						<Link
-							to={'/auth/login'}
-							className='inline-flex items-center text-white text-sm max-lg:hidden'
-						>
-							<IoLogInOutline className='text-xl mr-1' />
-							<span className='hover:underline'>
-								<FormattedMessage id='login' />
-							</span>
-						</Link>
-						<Link
-							to='/auth/register'
-							className='inline-flex items-center text-white text-sm before:w-0.5 before:h-5 before:bg-white before:mr-2 max-lg:hidden'
-						>
-							<FaUser className='text-base mr-1' />
-							<span className='hover:underline'>
-								<FormattedMessage id='register' />
-							</span>
-						</Link>
+						{isAuthAvailable && <Dropdown />}
+
+						{!isAuthAvailable && (
+							<Link
+								to={'/auth/login'}
+								className='inline-flex items-center text-white text-sm max-lg:hidden'
+							>
+								<IoLogInOutline className='text-xl mr-1' />
+								<span className='hover:underline'>
+									<FormattedMessage id='login' />
+								</span>
+							</Link>
+						)}
 					</div>
 				</div>
 			</div>

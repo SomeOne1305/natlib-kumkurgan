@@ -1,15 +1,23 @@
 import React from 'react'
+import { useLangStore } from '../../store'
+import { FAQType } from '../../types/faq.type'
 import AccordionItem from './AccordionItem'
 
 interface AccordionProps {
-	items: { title: string; content: string }[]
+	items: FAQType[]
 }
 
 const Accordion: React.FC<AccordionProps> = ({ items }) => {
+	const { lang } = useLangStore()
 	return (
-		<div className='w-full max-w-2xl mx-auto border border-gray-300 rounded-md'>
-			{items.map((item, index) => (
-				<AccordionItem key={index} title={item.title} content={item.content} />
+		<div className='w-full border border-gray-300 dark:border-gray-600 rounded-md'>
+			{items.map((item, i) => (
+				<AccordionItem
+					index={i}
+					key={'question_' + item.id}
+					title={item.question?.[lang]}
+					content={item.answer?.[lang]}
+				/>
 			))}
 		</div>
 	)

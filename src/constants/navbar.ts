@@ -1,84 +1,95 @@
-export const navbar = [
+interface LanguageTitles {
+	uz: string // Uzbek title
+	ru: string // Russian title
+	eng: string // English title
+}
+interface ChildNav {
+	title: LanguageTitles
+	link: string
+}
+interface NavItem {
+	id: number
+	title: LanguageTitles
+	link?: string
+	children?: ChildNav[]
+}
+
+export const navbar: NavItem[] = [
 	{
 		id: 1,
-		title: 'Kutubxona haqida',
+		title: {
+			uz: 'Kutubxona haqida',
+			ru: 'О библиотеке',
+			eng: 'About the Library',
+		},
 		children: [
 			{
-				title: 'Tuzilma',
-				link: 'docs/structure',
-			},
-			{
-				title: 'Rahbariyat',
+				title: { uz: 'Rahbariyat', ru: 'Руководство', eng: 'Management' },
 				link: 'docs/management',
 			},
-			// {
-			// 	title: 'Kutubxona tarixi',
-			// 	link: 'docs/history-of-library',
-			// },
 		],
 	},
 	{
 		id: 4,
-		title: 'Kutubxona xizmati',
+		title: {
+			uz: 'Kutubxona xizmati',
+			ru: 'Услуги библиотеки',
+			eng: 'Library Services',
+		},
 		children: [
 			{
-				title: 'Yangiliklar',
+				title: { uz: 'Yangiliklar', ru: 'Новости', eng: 'News' },
 				link: 'news',
 			},
 			{
-				title: "Ko'p beriladigan savollar",
+				title: {
+					uz: "Ko'p beriladigan savollar",
+					ru: 'Часто задаваемые вопросы',
+					eng: 'Frequently Asked Questions',
+				},
 				link: '/faqs',
 			},
-			// {
-			// 	title: 'Savollar va javoblar',
-			// },
 			{
-				title: 'Tadbirlar',
+				title: { uz: 'Tadbirlar', ru: 'Мероприятия', eng: 'Events' },
 				link: 'events',
 			},
-			// {
-			// 	title: "E'lonlar",
-			// },
 			{
-				title: 'Multimedia',
+				title: { uz: 'Multimedia', ru: 'Мультимедиа', eng: 'Multimedia' },
 				link: 'media',
 			},
 		],
 	},
 	{
 		id: 5,
-		title: 'Mening kutubxonam',
+		title: { uz: 'Mening kutubxonam', ru: 'Моя библиотека', eng: 'My Library' },
 		children: [
 			{
-				title: "Shaxsiy ma'lumotlarni boshqarish",
+				title: {
+					uz: "Shaxsiy ma'lumotlarni boshqarish",
+					ru: 'Управление личными данными',
+					eng: 'Manage Personal Information',
+				},
 				link: '/account/edit',
 			},
 			{
-				title: 'Mening javonim',
+				title: { uz: 'Mening javonim', ru: 'Моя полка', eng: 'My Shelf' },
 				link: '/account/favourites',
-			},
-			{
-				title: 'Mening sharhim',
-				link: '/account/my-comments',
 			},
 		],
 	},
 	{
 		id: 6,
-		title: 'Qidiruv',
+		title: { uz: 'Qidiruv', ru: 'Поиск', eng: 'Search' },
 		children: [
-			// {
-			// 	title: 'Umumiy qidiruv',
-			// },
 			{
-				title: 'Kitoblar',
+				title: { uz: 'Kitoblar', ru: 'Книги', eng: 'Books' },
 				link: 'books',
 			},
 		],
 	},
 	{
 		id: 7,
-		title: "Bog'lanish",
+		title: { uz: "Bog'lanish", ru: 'Контакты', eng: 'Contact' },
 		link: 'contact',
 	},
 ]

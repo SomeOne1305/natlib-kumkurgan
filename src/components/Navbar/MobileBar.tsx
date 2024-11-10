@@ -1,12 +1,15 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { FC, ReactNode, useState } from 'react'
-import { FaEnvelope, FaUser } from 'react-icons/fa'
+import { FaEnvelope } from 'react-icons/fa'
 import {
 	IoChevronBack,
 	IoChevronForward,
 	IoLogInOutline,
 } from 'react-icons/io5'
+import { Link } from 'react-router-dom'
 import { navbar } from '../../constants/navbar'
+import { useLangStore } from '../../store'
+import useAuthStore from '../../store/useAuthStore'
 
 type Props = {
 	children: ReactNode
@@ -25,6 +28,9 @@ const MobileBar: FC<Props> = ({ children }) => {
 		setData(null)
 		setOpt('nav')
 	}
+
+	const { isAuthAvailable } = useAuthStore()
+	const { lang } = useLangStore()
 
 	return (
 		<div className='md:hidden fixed top-0 left-0 w-full h-screen bg-black bg-opacity-80 z-20 backdrop-blur-md'>
@@ -49,7 +55,7 @@ const MobileBar: FC<Props> = ({ children }) => {
 										animate={{ opacity: 1, x: 0 }}
 										exit={{ opacity: 0, x: -20 }}
 									>
-										<span>{item.title}</span>
+										<span>{item.title?.[lang]}</span>
 										{item.children && (
 											<IoChevronForward className='text-xl ml-2' />
 										)}
@@ -79,28 +85,26 @@ const MobileBar: FC<Props> = ({ children }) => {
 										animate={{ opacity: 1, x: 0 }}
 										exit={{ opacity: 0, x: -20 }}
 									>
-										<span>{item.title}</span>
+										<span>{item.title?.[lang]}</span>
 									</motion.div>
 								))}
 							</motion.div>
 						)}
 					</AnimatePresence>
 					<div className='inline-flex items-start flex-col text-lg p-2 gap-2'>
-						<a href='#' className='text-white '>
-							Sayt xaritasi
-						</a>
 						<div className='inline-flex items-center'>
 							<FaEnvelope className='text-white mr-1' />
 							<span className='tex text-white'>: info@natlib.uz</span>
 						</div>
-						<a href='#' className='inline-flex items-center text-white'>
-							<IoLogInOutline className='text-2xl mr-1' />
-							<span className='hover:underline'>Kirish</span>
-						</a>
-						<a href='#' className='inline-flex items-center text-whiteS'>
-							<FaUser className='text-lg mr-1' />
-							<span className='hover:underline'>Ro'yxatdan o'tish</span>
-						</a>
+						{!isAuthAvailable && (
+							<Link
+								to={'/auth/login'}
+								className='inline-flex items-center text-white'
+							>
+								<IoLogInOutline className='text-2xl mr-1' />
+								<span className='hover:underline'>Kirish</span>
+							</Link>
+						)}
 					</div>
 				</div>
 			</div>

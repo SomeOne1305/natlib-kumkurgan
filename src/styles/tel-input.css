@@ -1,0 +1,18 @@
+.special-label {
+	display: block !important;
+	background-color: transparent !important;
+}
+
+.flag-dropdown {
+	display: none !important;
+}
+.special-label {
+	position: initial !important;
+	font-size: 14px !important;
+	margin-bottom: 8px;
+}
+
+
+.special-label.dark {
+	color: rgb(209 213 219) !important;
+}

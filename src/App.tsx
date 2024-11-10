@@ -1,8 +1,15 @@
 import { AnimatePresence } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import { Outlet } from 'react-router-dom'
+import { Slide, ToastContainer } from 'react-toastify'
 import SpeechButton from './components/SpeechButton'
-import { useLangStore } from './store'
+import { useLangStore, useThemeStore } from './store'
+
+import { useQuery } from '@tanstack/react-query'
+import 'react-toastify/ReactToastify.min.css'
+import Footer from './components/Footer/Footer'
+import { UserService } from './services/user.service'
+import useAuthStore from './store/useAuthStore'
 
 type Position = {
 	top: number
@@ -36,13 +43,36 @@ const App = () => {
 			document.removeEventListener('selectionchange', handleSelectionChange)
 		}
 	}, [])
+	const { setUser, setIsAuthAvailable } = useAuthStore()
+	const { data, isSuccess } = useQuery({
+		queryKey: ['GET_USER'],
+		queryFn: async () => await UserService.get_me(),
+	})
+	useEffect(() => {
+		if (isSuccess) {
+			setUser(data)
+			setIsAuthAvailable(true)
+		} else {
+			setUser(null)
+		}
+	}, [isSuccess, data, setUser, setIsAuthAvailable])
 
 	return (
-		<div className='dark:bg-[#0F172A] transition-colors duration-150 min-h-screen'>
+		<div className='dark:bg-[#0F172A] transition-colors duration-150 min-h-screen flex flex-col justify-between items-center'>
+			<ToastContainer
+				theme={useThemeStore(({ theme }) => theme)}
+				position='top-center'
+				draggable
+				pauseOnHover={false}
+				limit={1}
+				transition={Slide}
+				autoClose={1600}
+			/>
 			<AnimatePresence>
 				<SpeechButton text={selectedText} lang={lang} position={position} />
 			</AnimatePresence>
 			<Outlet />
+			<Footer />
 		</div>
 	)
 }

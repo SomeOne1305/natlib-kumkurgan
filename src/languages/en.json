@@ -4,5 +4,12 @@
 	"email": "E-mail",
 	"siteMap": "Site map",
 	"poll": "Do you like the new website design ?",
-	"contact": "Contact Us"
+	"contact": "Contact Us",
+	"footer": "All Rights Reserved.",
+	"comment_title": "Leave comment",
+	"comment_mes": "Comment text",
+	"comment_err_mes": "Comment text field must not be empty !",
+	"comment_name": "Your name",
+	"comment_err_name": "Name field must not be empty !",
+	"comment_sub": "Leave"
 }
