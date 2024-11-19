@@ -2,28 +2,28 @@ export function timeAgo(date: string, lang: 'uz' | 'ru' | 'eng') {
 	const now = new Date()
 	const old = new Date(date)
 	const seconds = Math.floor((now.getTime() - old.getTime()) / 1000)
-	let interval = Math.floor(seconds / 31536000)
-
+	let interval
 	let timeString
 
-	if (interval > 1) {
-		// Years
-		timeString = `${interval} ${getTranslation('year', interval, lang)}`
-	} else if ((interval = Math.floor(seconds / 2592000)) > 1) {
-		// Months
-		timeString = `${interval} ${getTranslation('month', interval, lang)}`
-	} else if ((interval = Math.floor(seconds / 86400)) > 1) {
-		// Days
-		timeString = `${interval} ${getTranslation('day', interval, lang)}`
-	} else if ((interval = Math.floor(seconds / 3600)) > 1) {
-		// Hours
-		timeString = `${interval} ${getTranslation('hour', interval, lang)}`
-	} else if ((interval = Math.floor(seconds / 60)) > 1) {
+	if (seconds < 60) {
+		// Just now (within 1 minute)
+		timeString = getTranslation('justNow', 1, lang)
+	} else if ((interval = Math.floor(seconds / 60)) < 60) {
 		// Minutes
 		timeString = `${interval} ${getTranslation('minute', interval, lang)}`
+	} else if ((interval = Math.floor(seconds / 3600)) < 24) {
+		// Hours
+		timeString = `${interval} ${getTranslation('hour', interval, lang)}`
+	} else if ((interval = Math.floor(seconds / 86400)) < 30) {
+		// Days
+		timeString = `${interval} ${getTranslation('day', interval, lang)}`
+	} else if ((interval = Math.floor(seconds / 2592000)) < 12) {
+		// Months
+		timeString = `${interval} ${getTranslation('month', interval, lang)}`
 	} else {
-		// Just now
-		timeString = getTranslation('justNow', 1, lang)
+		// Years
+		interval = Math.floor(seconds / 31536000)
+		timeString = `${interval} ${getTranslation('year', interval, lang)}`
 	}
 
 	return timeString + ` ${getTranslation('ago', 1, lang)}`

@@ -19,6 +19,7 @@ import { useLangStore } from '../../store'
 import { NewsType } from '../../types/news.type'
 import { timeAgo } from '../../utils/date-difference'
 import { dateToString } from '../../utils/date-to-string'
+import Seo from '../seo/Seo'
 import { Paragraph, Span } from '../ui'
 const NewsDetails = () => {
 	const navigate = useNavigate()
@@ -48,7 +49,7 @@ const NewsDetails = () => {
 			await NewsService.writeComment(arg, data.id),
 		onSuccess: async () => {
 			await refetch()
-			reset({} as CommentFormData)
+			reset({ message: '', name: '' })
 		},
 		onError: err => console.log(err),
 	})
@@ -57,6 +58,11 @@ const NewsDetails = () => {
 	}
 	return (
 		<div className='w-full p-4'>
+			<Seo
+				title={data?.title?.[lang]}
+				description={data?.body?.[lang]}
+				image_url={STORAGE_PATH + 'news/' + data?.image}
+			/>
 			<div
 				className='inline-block p-1.5 rounded-full hover:bg-blue-100 transition-colors duration-150 mb-4 cursor-pointer dark:hover:bg-[#1e283f]'
 				onClick={() => navigate(-1)}
@@ -179,12 +185,15 @@ const NewsDetails = () => {
 												{comment.message}
 												<p className='w-full mt-2'>
 													<span className='text-sm text-blue-500 mr-4'>
-														{`${new Date(
-															comment.createdAt
-														).getHours()}:${new Date(
-															comment.createdAt
-														).getMinutes()}`}
+														{`${new Date(comment.createdAt)
+															.getHours()
+															.toString()
+															.padStart(2, '0')}:${new Date(comment.createdAt)
+															.getMinutes()
+															.toString()
+															.padStart(2, '0')}`}
 													</span>
+
 													<span className='text-sm text-gray-400 mr-4'>
 														{timeAgo(comment.createdAt, lang)}
 													</span>
@@ -193,7 +202,17 @@ const NewsDetails = () => {
 										</div>
 									))
 								)}
-								{comments && comments.length <= 0 && <span>No data</span>}
+								{comments && comments.length == 0 && (
+									<div className='w-full'>
+										<p className='text-lg dark:text-slate-500 text-end max-w-md mb-6'>
+											{lang == 'uz'
+												? "Hali hech qanday izoh yo'q."
+												: lang == 'ru'
+												? 'Пока нет комментариев.'
+												: 'There are no comments yet.'}
+										</p>
+									</div>
+								)}
 							</div>
 						</div>
 						<div className='lg:w-1/3'>

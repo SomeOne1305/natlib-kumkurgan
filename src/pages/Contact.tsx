@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useLayoutEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { BsTelephone } from 'react-icons/bs'
 import { CiCalendar } from 'react-icons/ci'
@@ -7,6 +8,7 @@ import { IoIosLink } from 'react-icons/io'
 import { MdAlternateEmail } from 'react-icons/md'
 import { SlPrinter } from 'react-icons/sl'
 import { FormattedMessage } from 'react-intl'
+import PhoneInput from 'react-phone-input-2'
 import LocationAdd from '../components/LocationAdd'
 import { Button, Input, Span } from '../components/ui'
 import { ContactFormData, ContactScheme } from '../schemes/contact.scheme'
@@ -18,9 +20,12 @@ const Contact = () => {
 	const {
 		handleSubmit,
 		register,
+		setValue,
+		getValues,
 		formState: { errors },
 	} = useForm<ContactFormData>({
 		resolver: zodResolver(ContactScheme),
+		defaultValues: { phone_number: '+998' },
 	})
 	const onSubmit = (data: ContactFormData) => {
 		console.log(data)
@@ -28,6 +33,9 @@ const Contact = () => {
 	if (errors) {
 		console.log(errors)
 	}
+	useLayoutEffect(() => {
+		register('phone_number')
+	}, [register])
 	return (
 		<div className='w-full'>
 			<div className='w-full flex justify-around'>
@@ -202,7 +210,7 @@ const Contact = () => {
 								required
 							/>
 						</div>
-						<div className='flex items-center gap-2'>
+						<div className='w-full flex items-center gap-2'>
 							<div className='w-full'>
 								<label
 									htmlFor='subject'
@@ -238,12 +246,34 @@ const Contact = () => {
 									</option>
 								</select>
 							</div>
-							<Input
-								id='phone-number'
-								label='Phone number'
-								placeholder='+998 (XX) XXX-XX-XX'
-								{...register('phone_number')}
-								required
+							<PhoneInput
+								value={getValues('phone_number')}
+								inputProps={{
+									required: true,
+									className:
+										'block p-3 py-2.5  w-full text-base text-gray-900 bg-gray-50 rounded-lg border border-gray-300 shadow-sm focus:ring-blue-100 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-100 dark:focus:border-blue-500 dark:shadow-sm dark:shadow-gray-200 focus:ring outline-none',
+								}}
+								containerClass='w-full'
+								onChange={val =>
+									setValue('phone_number', val.length < 4 ? '+998' : val)
+								}
+								onlyCountries={['uz']}
+								country={'uz'}
+								inputClass='w-full'
+								placeholder='+998 XX XXX-XX-XX'
+								specialLabel={
+									lang === 'uz'
+										? 'Telefon raqam'
+										: lang === 'ru'
+										? 'Номер телефона'
+										: 'Phone number'
+								}
+								masks={{
+									uz: '(..) ...-..-..',
+								}}
+								onFocus={() => setValue('phone_number', '+998')}
+								copyNumbersOnly
+								disableDropdown
 							/>
 						</div>
 

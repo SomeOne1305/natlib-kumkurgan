@@ -11,6 +11,10 @@
 	overflow-y: auto !important;
 }
 
+.dark .special-label {
+	color: rgb(238, 238, 238) !important;
+}
+
 .loading {
 	background-color: var(--loading-grey);
 	background: linear-gradient(

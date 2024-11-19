@@ -1,17 +1,17 @@
-import { useQuery } from '@tanstack/react-query'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { FaEye, FaRegCalendar } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import { STORAGE_PATH } from '../../constants/storage'
 import { NewsService } from '../../services/news.service'
 import { useLangStore } from '../../store'
+import NoData from '../NoData'
 
 const TopNews = () => {
-	const { data, isLoading } = useQuery({
+	const { data, isLoading } = useSuspenseQuery({
 		queryKey: ['GET_TOP_NEWS'],
 		queryFn: async () => await NewsService.get_latest_news(),
 	})
 	const { lang } = useLangStore()
-	console.log(data)
 
 	return (
 		<div className='w-full py-3 my-4'>
@@ -19,7 +19,8 @@ const TopNews = () => {
 				{isLoading ? (
 					<span>loading...</span>
 				) : (
-					data && (
+					data &&
+					data.length === 3 && (
 						<>
 							<div className='flex md:col-span-2 lg:col-span-2 lg:row-span-2 relative overflow-hidden'>
 								<img
@@ -116,6 +117,7 @@ const TopNews = () => {
 					)
 				)}
 			</div>
+			{data.length < 3 && <NoData />}
 		</div>
 	)
 }

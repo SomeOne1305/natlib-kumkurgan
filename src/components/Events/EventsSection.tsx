@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { EventsService } from '../../services/events.service'
+import NoData from '../NoData'
 import EventCard from './EventCard'
 
 const EventsSection = () => {
@@ -14,11 +15,13 @@ const EventsSection = () => {
 					<span>Loading</span>
 				) : (
 					data &&
+					data.length > 0 &&
 					data.map(event => (
 						<EventCard key={'event_' + event.id} data={event} />
 					))
 				)}
 			</div>
+			{data?.length == 0 && <NoData />}
 		</>
 	)
 }

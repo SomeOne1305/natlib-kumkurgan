@@ -8,8 +8,6 @@ import {
 import App from './App'
 import EventsDetails from './components/Events/EventsDetails'
 import EventsSection from './components/Events/EventsSection'
-import DocsInfo from './components/Info/DocsInfo'
-import StuffInfo from './components/Info/StuffInfo'
 import MediaSection from './components/Media/MediaSection'
 import NewsDetails from './components/News/NewsDetails'
 import NewsSection from './components/News/NewsSection'
@@ -25,27 +23,42 @@ import {
 	Register,
 } from './pages'
 
-import { getEventsBySlugLoader, getNewsBySlugLoader } from './loaders'
-import NewUser from './pages/NewUser'
+import { Suspense } from 'react'
+import NoData from './components/NoData'
 import {
-	Akm,
-	CatalogCenter,
-	HistoryOfLibrary,
-	LibraryPlans,
-	Management,
-	PressService,
-	Structure,
-	StudyHalls,
-	Takm,
-} from './static-pages'
+	getEventsBySlugLoader,
+	getNewsBySlugLoader,
+	searchBook,
+} from './loaders'
+import Loading from './Loading'
+import AllBooks from './pages/AllBooks'
+import BooksSearch from './pages/BooksSearch'
+import NewUser from './pages/NewUser'
+import { Management } from './static-pages'
+import { useLangStore } from './store'
 import useTitleStore from './store/useTitleStore'
 
 export const router = createBrowserRouter(
 	createRoutesFromElements(
 		<Route element={<App />}>
 			<Route path='/' element={<MainLayout />}>
-				<Route path='' element={<Home />} />
-				<Route path='books' element={<BooksPage />} />
+				<Route
+					path=''
+					element={
+						<Suspense fallback={<Loading />}>
+							<Home />
+						</Suspense>
+					}
+				/>
+				<Route path='books' element={<BooksPage />}>
+					<Route path='' index element={<AllBooks />} />
+					<Route
+						path='search'
+						loader={searchBook}
+						element={<BooksSearch />}
+						errorElement={<NoData />}
+					/>
+				</Route>
 				<Route path='account' element={<AccountLayout />}>
 					<Route path='' element={<Navigate to={'edit'} replace={true} />} />
 					<Route path='edit' element={<EditPage />} />
@@ -62,7 +75,15 @@ export const router = createBrowserRouter(
 						path=''
 						element={<Contact />}
 						handle={{
-							crumb: () => <span className='text-xl mx-2'>{'> '} Contact</span>,
+							crumb: () => (
+								<span className='text-xl mx-2'>
+									{useLangStore.getState().lang == 'uz'
+										? "Biz bilan bog'lanish"
+										: useLangStore.getState().lang == 'ru'
+										? 'Связаться с нами'
+										: 'Contact us'}
+								</span>
+							),
 						}}
 					/>
 				</Route>
@@ -72,7 +93,7 @@ export const router = createBrowserRouter(
 					handle={{
 						crumb: () => (
 							<Link
-								to={''}
+								to={'/news'}
 								className='text-xl mx-2'
 								onClick={() => useTitleStore.getState().setTitle(null)}
 							>
@@ -80,7 +101,7 @@ export const router = createBrowserRouter(
 							</Link>
 						),
 					}}
-					errorElement={<span>News not found</span>}
+					errorElement={<NoData />}
 				>
 					<Route path='' element={<NewsSection />} />
 					<Route
@@ -94,6 +115,7 @@ export const router = createBrowserRouter(
 							),
 						}}
 						element={<NewsDetails />}
+						errorElement={<NoData />}
 					/>
 				</Route>
 				<Route
@@ -102,11 +124,15 @@ export const router = createBrowserRouter(
 					handle={{
 						crumb: () => (
 							<Link
-								to={''}
+								to={'/events'}
 								className='text-xl mx-2'
 								onClick={() => useTitleStore.getState().setTitle(null)}
 							>
-								Tadbirlar
+								{useLangStore.getState().lang == 'uz'
+									? 'Tadbirlar'
+									: useLangStore.getState().lang == 'ru'
+									? 'Мероприятия'
+									: 'Events'}
 							</Link>
 						),
 					}}
@@ -123,114 +149,61 @@ export const router = createBrowserRouter(
 								</span>
 							),
 						}}
-						errorElement={<span>No data</span>}
+						errorElement={<NoData />}
 					/>
 				</Route>
-				<Route path='faqs' element={<Section />}>
+				<Route
+					path='faqs'
+					element={<Section />}
+					handle={{
+						crumb: () => (
+							<span className='text-xl mx-2'>
+								{useLangStore.getState().lang == 'uz'
+									? 'Tez-tez beriladigan savollar'
+									: useLangStore.getState().lang == 'ru'
+									? 'Часто задаваемые вопросы'
+									: 'Frequently asked questions'}
+							</span>
+						),
+					}}
+				>
 					<Route path='' element={<Faq />} />
 				</Route>
-				<Route path='media' element={<Section />}>
+				<Route
+					path='media'
+					element={<Section />}
+					handle={{
+						crumb: () => (
+							<span className='text-xl mx-2'>
+								<span className='text-xl mx-2'>
+									{useLangStore.getState().lang == 'uz'
+										? 'Multimedialar'
+										: useLangStore.getState().lang == 'ru'
+										? 'Мультимедиа'
+										: 'Multimedia'}
+								</span>
+							</span>
+						),
+					}}
+				>
 					<Route path='' element={<MediaSection />} />
 				</Route>
 				<Route path='docs' element={<Section />}>
 					<Route
-						path='press-service'
-						element={<StuffInfo />}
-						handle={{
-							crumb: () => (
-								<span className='text-xl mx-2'>
-									{'> '}Kutubxona haqida {'> '} Matbuot xizmati
-								</span>
-							),
-						}}
-					/>
-					<Route path='important-documents' element={<DocsInfo />} />
-					<Route
-						path='study-halls'
-						element={<StudyHalls />}
-						handle={{
-							crumb: () => (
-								<span className='text-xl mx-2'>
-									{'> '}Kutubxona haqida {'> '} O'quv zallari
-								</span>
-							),
-						}}
-					/>
-					<Route
-						path='library-plans'
-						element={<LibraryPlans />}
-						handle={{
-							crumb: () => (
-								<span className='text-xl mx-2'>
-									{'> '}Kutubxona haqida {'> '} Kutubxona rejalari
-								</span>
-							),
-						}}
-					/>
-					<Route
-						path='structure'
-						element={<Structure />}
-						handle={{
-							crumb: () => (
-								<span className='text-xl mx-2'>
-									{'> '}Kutubxona haqida {'> '} Tuzilma
-								</span>
-							),
-						}}
-					/>
-					<Route
 						path='management'
 						element={<Management />}
 						handle={{
-							crumb: () => <span className='text-xl mx-2'>Rahbariyat</span>,
-						}}
-					/>
-					<Route
-						path='history-of-library'
-						element={<HistoryOfLibrary />}
-						handle={{
 							crumb: () => (
 								<span className='text-xl mx-2'>
-									{'> '}Kutubxona haqida {'> '} Kutubxona tarixi
+									{useLangStore.getState().lang == 'uz'
+										? 'Rahbariyat'
+										: useLangStore.getState().lang == 'ru'
+										? 'Руководство'
+										: 'Management'}
 								</span>
 							),
 						}}
 					/>
-					<Route
-						path='akm'
-						element={<Akm />}
-						handle={{
-							crumb: () => (
-								<span className='text-xl mx-2'>
-									{'> '}Kutubxona haqida {'> '} AKM
-								</span>
-							),
-						}}
-					/>
-					<Route
-						path='takm'
-						element={<Takm />}
-						handle={{
-							crumb: () => (
-								<span className='text-xl mx-2'>
-									{'> '}Kutubxona haqida {'> '} TAKM
-								</span>
-							),
-						}}
-					/>
-					<Route
-						path='catalog-center-of-republic'
-						element={<CatalogCenter />}
-						handle={{
-							crumb: () => (
-								<span className='text-xl mx-2'>
-									{'> '}Kutubxona haqida {'> '} Respublika yig'ma elektron
-									katalog markazi
-								</span>
-							),
-						}}
-					/>
-					<Route path='press-service' element={<PressService />} />
 				</Route>
 			</Route>
 		</Route>

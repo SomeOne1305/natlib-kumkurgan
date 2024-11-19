@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
+import NoData from '../components/NoData'
 import Accordion from '../components/ui/Accordion'
 import { FAQsService } from '../services/faqs.service'
 
@@ -7,7 +8,6 @@ const Faq = () => {
 		queryKey: ['GET_ALL_QUESTIONS'],
 		queryFn: async () => await FAQsService.get_all_faqs(),
 	})
-	console.log(data)
 
 	return (
 		<div className='w-full py-4'>
@@ -20,8 +20,9 @@ const Faq = () => {
 				{isLoading ? (
 					<span>Loading...</span>
 				) : (
-					data && <Accordion items={data} />
+					data && data.length > 0 && <Accordion items={data} />
 				)}
+				{data?.length == 0 && <NoData />}
 			</div>
 		</div>
 	)

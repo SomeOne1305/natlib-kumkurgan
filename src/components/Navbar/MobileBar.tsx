@@ -55,7 +55,10 @@ const MobileBar: FC<Props> = ({ children }) => {
 										animate={{ opacity: 1, x: 0 }}
 										exit={{ opacity: 0, x: -20 }}
 									>
-										<span>{item.title?.[lang]}</span>
+										{item.link && (
+											<Link to={item.link}>{item.title?.[lang]}</Link>
+										)}
+										{!item.link && <span>{item.title?.[lang]}</span>}
 										{item.children && (
 											<IoChevronForward className='text-xl ml-2' />
 										)}
@@ -85,7 +88,7 @@ const MobileBar: FC<Props> = ({ children }) => {
 										animate={{ opacity: 1, x: 0 }}
 										exit={{ opacity: 0, x: -20 }}
 									>
-										<span>{item.title?.[lang]}</span>
+										<Link to={item.link}>{item.title?.[lang]}</Link>
 									</motion.div>
 								))}
 							</motion.div>

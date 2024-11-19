@@ -6,6 +6,7 @@ import { IoCloseSharp } from 'react-icons/io5'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { BookService } from '../../services/books.service'
 import { SwiperType } from '../../types'
+import NoData from '../NoData'
 import BookCard from './BookCard'
 import BookDetails from './BookDetails'
 
@@ -24,7 +25,6 @@ const BooksSection = () => {
 		queryKey: ['GET_RECOMMEND_BOOKS'],
 		queryFn: async () => await BookService.get_recommended_books(),
 	})
-	console.log(data)
 
 	return (
 		<div className='w-full py-4'>
@@ -60,7 +60,7 @@ const BooksSection = () => {
 					</button>
 				</div>
 			</div>
-			{!isLoading && data ? (
+			{!isLoading && data && data.length > 0 ? (
 				<Swiper
 					slidesPerView={1}
 					spaceBetween={15}
@@ -87,9 +87,7 @@ const BooksSection = () => {
 					))}
 				</Swiper>
 			) : (
-				<div className='text-center text-gray-500 dark:text-gray-400'>
-					No books available.
-				</div>
+				<NoData />
 			)}
 		</div>
 	)

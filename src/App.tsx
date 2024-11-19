@@ -48,6 +48,7 @@ const App = () => {
 		queryKey: ['GET_USER'],
 		queryFn: async () => await UserService.get_me(),
 	})
+
 	useEffect(() => {
 		if (isSuccess) {
 			setUser(data)

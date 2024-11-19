@@ -28,6 +28,13 @@ axios.interceptors.response.use(
 		// Check for 401 error, ensure it's not a refresh request, and the request hasn't been retried yet
 		if (
 			error.response?.status === 401 &&
+			(error.response?.data as { message: string }).message ===
+				'Unauthorized access kumkurgan-takm.uz'
+		) {
+			useAuthStore.getState().setIsAuthAvailable(false)
+		}
+		if (
+			error.response?.status === 401 &&
 			!originalRequest._retry &&
 			!originalRequest._isRefreshRequest
 		) {
@@ -52,6 +59,8 @@ axios.interceptors.response.use(
 					return axios(originalRequest)
 				} else {
 					// If refresh fails, update auth state and redirect to login
+					console.log('err', res)
+
 					useAuthStore.getState().setIsAuthAvailable(false)
 				}
 			} catch (refreshError) {

@@ -10,14 +10,54 @@
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link
+			rel="preload"
 			href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
-			rel="stylesheet"
+			as="style"
+			onload="this.onload=null;this.rel='stylesheet'"
 		/>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>NATLib Surkhandarya</title>
+		<noscript>
+			<link
+				href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
+				rel="stylesheet"
+			/>
+		</noscript>
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
+		/>
+		<meta
+			name="keywords"
+			content="kitoblar, kitob, qumqo'rg'on, kutubxona, takm, qumqo'rg'on takm, kitobxon"
+		/>
+		<title>Qumqo'rg'on TAKM</title>
+		<meta name="title" content="Qumqo'rg'on TAKM rasmiy veb-sayti" />
+		<meta name="description" content="Qumqo'rg'on TAKM rasmiy veb-sayti" />
+
+		<!-- Open Graph / Facebook -->
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content="https://kumkurgan-takm.uz" />
+		<meta property="og:title" content="Qumqo'rg'on TAKM rasmiy veb-sayti" />
+		<meta
+			property="og:description"
+			content="Qumqo'rg'on TAKM rasmiy veb-sayti"
+		/>
+		<meta property="og:image" content="https://kumkurgan-takm.uz/logo.png" />
+
+		<!-- Twitter -->
+		<meta property="twitter:card" content="summary_large_image" />
+		<meta property="twitter:url" content="https://kumkurgan-takm.uz" />
+		<meta property="twitter:title" content="Axborot kutubxona markazi" />
+		<meta
+			property="twitter:description"
+			content="Qumqo'rg'on axborot-kutubxona markazi"
+		/>
+		<meta
+			property="twitter:image"
+			content="https://kumkurgan-takm.uz/logo.png"
+		/>
 	</head>
 	<body>
 		<div id="root"></div>
-		<script type="module" src="/src/main.tsx"></script>
+		<script type="module" src="/src/main.tsx" async></script>
 	</body>
 </html>

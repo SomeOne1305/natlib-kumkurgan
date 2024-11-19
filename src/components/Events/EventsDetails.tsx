@@ -13,17 +13,22 @@ import { STORAGE_PATH } from '../../constants/storage'
 import { useLangStore } from '../../store'
 import { IEventType } from '../../types/event.type'
 import { dateToString } from '../../utils/date-to-string'
+import Seo from '../seo/Seo'
 
 const EventsDetails = () => {
 	const navigate = useNavigate()
 	const location = useLocation()
 	const shareLink = window.location.origin + location.pathname
-	console.log(shareLink)
 
 	const data = useLoaderData() as IEventType
 	const { lang } = useLangStore()
 	return (
 		<div className='w-full p-4'>
+			<Seo
+				title={data?.title?.[lang]}
+				description={data?.title?.[lang]}
+				image_url={STORAGE_PATH + 'events/' + data?.source}
+			/>
 			<div
 				className='inline-block p-1.5 rounded-full hover:bg-blue-100 transition-colors duration-150 mb-4 cursor-pointer dark:hover:bg-[#1e283f]'
 				onClick={() => navigate(-1)}

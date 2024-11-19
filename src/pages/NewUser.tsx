@@ -52,8 +52,6 @@ function NewUser() {
 				passport_id: passport_id.split(' ').join(''),
 				token,
 			})
-		} else {
-			console.log(data)
 		}
 	}
 

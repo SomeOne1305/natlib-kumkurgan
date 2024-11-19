@@ -12,7 +12,7 @@ interface IAuthStore {
 }
 
 const useAuthStore = create<IAuthStore>(set => ({
-	isAuthAvailable: true,
+	isAuthAvailable: false,
 	user: null,
 	setUser: arg => set({ user: arg }),
 	setIsAuthAvailable: arg => set({ isAuthAvailable: arg }),

@@ -24,7 +24,6 @@ const MediaCard = ({ media }: { media: MediaType }) => {
 				return STORAGE_PATH + 'cover/' + media.thumbnail
 		}
 	}
-	console.log(media)
 
 	return (
 		<a

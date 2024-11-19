@@ -1,11 +1,11 @@
-import { useQuery } from '@tanstack/react-query'
 import { AnimatePresence, motion } from 'framer-motion'
-import { ReactNode, useState } from 'react'
+import { useState } from 'react'
 import { IoMdClose, IoMdDownload, IoMdEye } from 'react-icons/io'
+import { useLoaderData } from 'react-router-dom'
 import { STORAGE_PATH } from '../../constants/storage'
 import BookViewer from '../../providers/BookViewer'
-import { BookService } from '../../services/books.service'
 import { useLangStore } from '../../store'
+import { BookType } from '../../types/book.type'
 
 const DownloadButton = ({
 	book_name,
@@ -17,7 +17,7 @@ const DownloadButton = ({
 	const handleDownload = async () => {
 		try {
 			const response = await fetch(
-				`${import.meta.env.VITE_API_BASE_URL}/static/books/${source}`
+				`http://localhost:3000/static/books/${source}`
 			)
 			if (!response.ok) {
 				throw new Error('Network response was not ok')
@@ -48,22 +48,16 @@ const DownloadButton = ({
 	)
 }
 
-const BookDetails = ({ id, children }: { id: string; children: ReactNode }) => {
+const BooksDetailPage = () => {
 	const [open, setOpen] = useState<boolean>(false)
-	const { data: book, isLoading } = useQuery({
-		queryKey: ['GET_BOOK_BY_ID', id],
-		queryFn: async () => await BookService.get_book_by_id(id),
-	})
+	const book = useLoaderData() as BookType
 	const { lang } = useLangStore()
+	console.log(STORAGE_PATH + 'books/' + book?.source)
+
 	return (
-		<motion.div
-			className='w-full h-screen flex flex-col justify-end fixed left-0 z-10 bg-black bg-opacity-80'
-			initial={{ top: '150%', opacity: 0 }}
-			animate={{ top: 0, opacity: 1 }}
-			exit={{ top: '150%', opacity: 0 }}
-		>
+		<div className='w-full h-screen flex flex-col justify-end'>
 			<AnimatePresence>
-				{open && !isLoading && book && (
+				{open && book && (
 					<motion.div
 						className='w-full h-full fixed z-50 overflow-y-auto bg-black bg-opacity-80 backdrop-blur'
 						transition={{ duration: 0.5 }}
@@ -83,11 +77,10 @@ const BookDetails = ({ id, children }: { id: string; children: ReactNode }) => {
 					</motion.div>
 				)}
 			</AnimatePresence>
-			<div className='w-full py-1'>{children}</div>
-			<div className='w-full h-[90%] bg-white dark:bg-[#0F172A] rounded-t-xl overflow-y-auto'>
+			<div className='w-full bg-white dark:bg-[#0F172A] rounded-t-xl'>
 				<div className='container'>
 					<div className='w-full'>
-						{isLoading ? (
+						{!book ? (
 							<span>Loading</span>
 						) : (
 							book && (
@@ -187,8 +180,8 @@ const BookDetails = ({ id, children }: { id: string; children: ReactNode }) => {
 					</div>
 				</div>
 			</div>
-		</motion.div>
+		</div>
 	)
 }
 
-export default BookDetails
+export default BooksDetailPage

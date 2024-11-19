@@ -74,7 +74,6 @@ function Login() {
 	const navigate = useNavigate()
 	async function verifyCode() {
 		const data = await mutateAsync({ code: code.join('') })
-		console.log(data)
 
 		if (data?.token) {
 			localStorage.setItem('token', data?.token)
@@ -95,7 +94,7 @@ function Login() {
 			<p className='text-lg dark:text-slate-300 mb-10 mt-4 p-2'>
 				Kirish uchun{' '}
 				<a
-					href='https://t.me/KnNatLibBot'
+					href='https://t.me/kumkurgan_takm_bot'
 					target='_blank'
 					className='text-blue-500'
 				>

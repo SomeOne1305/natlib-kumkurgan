@@ -26,10 +26,9 @@ const Content = () => {
 			)
 			return crumb as React.ReactNode
 		})
-	console.log(crumbs)
 	const { title } = useTitleStore()
 	return (
-		<div className="w-full h-[35vh] bg-[url('/src/assets/patterns/moroccan.svg')] bg-[#264DB1] dark:bg-[url('/src/assets/dark-pattern.svg')] dark:bg-[#4945FF] flex flex-col justify-end">
+		<div className="w-full h-[35vh] bg-[url('/src/assets/patterns/moroccan.svg')] bg-[#264DB1] dark:bg-[url('/src/assets/dark-pattern.svg')] dark:bg-[#4945FF] lg:flex flex-col justify-end hidden">
 			<div className='container py-4'>
 				<h1 className='text-4xl font-bold text-white mb-3'>{title ?? ''}</h1>
 				<div className='w-full flex items-center justify-between'>

@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import BooksSection from '../components/Books/BooksSection'
 import NewsCard from '../components/News/NewsCard'
 import TopNews from '../components/News/TopNews'
+import NoData from '../components/NoData'
 import UsefulLInks from '../components/UsefulLInks'
 import { NewsService } from '../services/news.service'
 
@@ -10,6 +11,7 @@ const Home = () => {
 		queryKey: ['GET_RECOMMENDED_NEWS'],
 		queryFn: async () => await NewsService.get_recommend_news(),
 	})
+
 	return (
 		<>
 			<div className='container'>
@@ -26,11 +28,13 @@ const Home = () => {
 							<span>Loading...</span>
 						) : (
 							data &&
+							data.length > 0 &&
 							data.map(news => (
 								<NewsCard data={news} key={'recommeded_news_' + news.id} />
 							))
 						)}
 					</div>
+					{data?.length == 0 && <NoData />}
 				</div>
 				<UsefulLInks />
 			</div>

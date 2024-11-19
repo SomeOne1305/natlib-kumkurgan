@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { NewsService } from '../../services/news.service'
+import NoData from '../NoData'
 import NewsCard from './NewsCard'
 import TopNews from './TopNews'
 
@@ -16,9 +17,11 @@ const NewsSection = () => {
 					<span>Loading...</span>
 				) : (
 					data &&
+					data.length > 0 &&
 					data.map(news => <NewsCard key={'news_' + news.id} data={news} />)
 				)}
 			</div>
+			{data?.length == 0 && <NoData />}
 		</>
 	)
 }

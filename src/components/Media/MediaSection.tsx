@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { MediaService } from '../../services/media.service'
+import NoData from '../NoData'
 import Fancybox from './FancyBox'
 import MediaCard from './MediaCard'
 
@@ -27,10 +28,12 @@ const MediaSection = () => {
 						<span>Loading...</span>
 					) : (
 						data &&
+						data.length > 0 &&
 						data.map(media => <MediaCard media={media} key={media.id} />)
 					)}
 				</div>
 			</Fancybox>
+			{data?.length == 0 && <NoData />}
 		</div>
 	)
 }

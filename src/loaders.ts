@@ -1,4 +1,5 @@
 import { LoaderFunctionArgs } from 'react-router-dom'
+import { BookService } from './services/books.service'
 import { EventsService } from './services/events.service'
 import { NewsService } from './services/news.service'
 import { useLangStore } from './store'
@@ -26,4 +27,10 @@ export const getEventsBySlugLoader = async ({ params }: LoaderFunctionArgs) => {
 		useTitleStore.getState().setTitle(event?.title?.[lang])
 		return event
 	}
+}
+export const searchBook = async ({ request }: LoaderFunctionArgs) => {
+	const url = new URL(request.url)
+	const searchTerm = url.searchParams.get('q')
+	const data = await BookService.search_books(searchTerm ?? '')
+	return data
 }
